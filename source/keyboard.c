@@ -3,7 +3,7 @@
 #include <dos.h>;
 #include <mem.h>;
 #include <stdlib.h>;
-#include "\develop\xargon\include\keyboard.h";
+#include "include/keyboard.h";
 
 char k_rshift, k_lshift, k_shift, k_ctrl, k_alt, k_numlock;
 void k_status (void);

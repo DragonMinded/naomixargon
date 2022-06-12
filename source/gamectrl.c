@@ -8,7 +8,7 @@
 #include <conio.h>;
 #include <stdlib.h>;
 #include <io.h>;
-#include "\develop\xargon\include\keyboard.h";
+#include "include/keyboard.h";
 
 extern int gamecount;
 extern int debug,swrite;

@@ -8,9 +8,9 @@
 #include <fcntl.h>
 #include <io.h>
 #include <mem.h>
-#include "\develop\xargon\include\config.h"
-#include "\develop\xargon\include\music.h"
-#include "\develop\xargon\include\worx.h"
+#include "include/config.h"
+#include "include/music.h"
+#include "include/worx.h"
 
 void soundadd (int priority,char *s);
 void sampadd (int instr,int len,int durfactor,int note);

@@ -2,9 +2,9 @@
 
 #include <dos.h>;
 #include <string.h>;
-#include "\develop\xargon\include\gr.h";
-#include "\develop\xargon\include\keyboard.h"
-#include "\develop\xargon\include\windows.h";
+#include "include/gr.h";
+#include "include/keyboard.h"
+#include "include/windows.h";
 
 char cursorchar;
 int  curhi, curlo, curback;					// current color scheme

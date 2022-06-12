@@ -13,6 +13,12 @@ SRCS = $(wildcard source/*.c)
 # Find the include files that we care about.
 FLAGS += -I./
 
+# Include our compat layer as stadard headers.
+FLAGS += -I./compat/
+
+# Modern C doesn't have a concept of a "far" pointer, we don't use DOS model here.
+FLAGS += -Dfar=
+
 # Compile "normal linux" as per the forked repo.
 FLAGS += -DNAOMI
 

@@ -5,8 +5,8 @@
 #include <conio.h>;
 #include <mem.h>;
 #include <ctype.h>;
-#include "\develop\xargon\include\gr.h";
-#include "\develop\xargon\include\keyboard.h";
+#include "include/gr.h";
+#include "include/keyboard.h";
 
 #define Red 0
 #define Green 1

@@ -14,7 +14,7 @@
 #include <string.h>;
 #include <math.h>;
 #include <mem.h>;
-#include "\develop\xargon\include\gr.h";
+#include "include/gr.h";
 
 extern void rexit (int num);
 

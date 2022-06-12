@@ -8,12 +8,12 @@
 #include <ctype.h>
 #include <string.h>
 #include <alloc.h>
-#include "\develop\xargon\include\gr.h"
-#include "\develop\xargon\include\keyboard.h"
-#include "\develop\xargon\include\windows.h"
-#include "\develop\xargon\include\gamectrl.h"
-#include "\develop\xargon\include\x_obj.h"
-#include "\develop\xargon\include\xargon.h"
+#include "include/gr.h"
+#include "include/keyboard.h"
+#include "include/windows.h"
+#include "include/gamectrl.h"
+#include "include/x_obj.h"
+#include "include/xargon.h"
 
 int disy;							// Y-disalignment
 static int bc_array[normxs*normys];					// Block copy buffer

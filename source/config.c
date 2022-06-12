@@ -10,10 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "\develop\xargon\include\gr.h"
-#include "\develop\xargon\include\keyboard.h"
-#include "\develop\xargon\include\gamectrl.h"
-#include "\develop\xargon\include\music.h"
+#include "include/gr.h"
+#include "include/keyboard.h"
+#include "include/gamectrl.h"
+#include "include/music.h"
 
 int nosnd=0;
 //int cfgdemo=0;

@@ -6,14 +6,14 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "\develop\xargon\include\gr.h"
-#include "\develop\xargon\include\keyboard.h"
-#include "\develop\xargon\include\windows.h"
-#include "\develop\xargon\include\gamectrl.h"
-#include "\develop\xargon\include\music.h"
-#include "\develop\xargon\include\x_obj.h"
-#include "\develop\xargon\include\xargon.h"
-#include "\develop\xargon\include\x_snd.h"
+#include "include/gr.h"
+#include "include/keyboard.h"
+#include "include/windows.h"
+#include "include/gamectrl.h"
+#include "include/music.h"
+#include "include/x_obj.h"
+#include "include/xargon.h"
+#include "include/x_snd.h"
 
 int first_elev=1;
 int first_heart=1;
@@ -24,7 +24,7 @@ int first_box=1;
 
 #define defobj(objnum,objname,objmsg,objxl,objyl,objstr,objflgs,objtbl,objscore)\
 	int objmsg (int n, int msg, int z);
-#include "\develop\xargon\include\x_obj.def"
+#include "include/x_obj.def"
 
 #undef defobj
 #define defobj(objnum,objname,objmsg,objxl,objyl,objstr,objflgs,objtbl,objscore)\
@@ -60,7 +60,7 @@ const char *inv_getmsg[numinvkinds]={
 //int inv_first[numinvkinds]={-1,1,1,1,1,-1,-1,1,1,1,1,1,1,1,1,1,1};
 
 void init_objinfo (void) {
-	#include "\develop\xargon\include\x_obj.def"
+	#include "include/x_obj.def"
 	};
 
 int msg_null (int n, int msg, int z) {
