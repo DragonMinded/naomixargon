@@ -78,7 +78,7 @@ int msg_mine (int n, int msg, int z) {
 				};
 			if (!fishdo(n,pobj->x+pobj->xd,pobj->y)) pobj->xd=-pobj->xd;
 			if (!fishdo(n,pobj->x,pobj->y+pobj->yd)) pobj->yd=-pobj->yd;
-			if (random (16)==0) addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
+			if (randomrange (16)==0) addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
 			pobj->counter++; return (1);
 		case msg_draw:	drawshape (&gamevp,sh,pobj->x,pobj->y); break;
 		case msg_touch:
@@ -1869,7 +1869,7 @@ int msg_effects (int n, int msg, int z) {		// yd FREE
 				case 0: setcolor (250,0,0,0);			 		// black sky
 					setcolor (251,0,0,0); pobj->state=-1; break;
 				case 1:									// simulate lightning
-					if (random (25)==0) {
+					if (randomrange (25)==0) {
 						pobj->zaphold=3;
 						setcolor (250,60,60,63);
 						if (pobj->xd==0) setcolor (251,60,60,63);
@@ -1970,7 +1970,7 @@ int msg_front (int n, int msg, int z) {
 	switch (msg) {
 		case msg_update: if ((pobj->state<13)||(pobj->state>14)) return (0);
 			if (pobj->state==13) {
-				if ((pobj->info1>=3)&&(random (abs(pobj->info1-42))==0)) {
+				if ((pobj->info1>=3)&&(randomrange (abs(pobj->info1-42))==0)) {
 					addobj(obj_fire,pobj->x+randomrange(36),pobj->y+randomrange(8),0,0);
 					objs[numobjs-1].state=1; mod1=0;
 					};

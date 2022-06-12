@@ -103,7 +103,7 @@ void xlate_table (int n, char *addr, char *bucket1) {
 		//	Copy the actual pixel bitmap of the shape into bucket
 		if (storetype==st_byte) {
 			memcpy (bucket, addr, xs*ys);
-			(char*) addr+=(xs*ys);
+			addr+=(xs*ys);
 			};
 
 //	Now the shape definition is in memory at BUCKET

@@ -8,7 +8,8 @@ all: xargon.bin
 # one of these files is not found, make will complain about a
 # missing missing `build/naomi.bin' target, so make sure all of
 # these files exist.
-SRCS = $(wildcard source/*.c)
+SRCS  = $(wildcard source/*.c)
+SRCS += $(wildcard device/*.c)
 
 # Find the include files that we care about.
 FLAGS += -I./

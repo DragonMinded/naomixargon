@@ -112,6 +112,7 @@ const int vbi_mask=0x8;
 
 char pixvalue;
 
+#ifndef NAOMI
 void pixaddr_cga (int x,int y,char **vidbuf,unsigned char *bitc) {
 //   *vidbuf = (void*) (0xb8000000 + (x/4) + 0x2000*(y&1) + 0x50*(y/2));
 //   *bitc = (x&3)*2;
@@ -393,3 +394,4 @@ void undim (void) {
 		};
 	};
 //#endif
+#endif
