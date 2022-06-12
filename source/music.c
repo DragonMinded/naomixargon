@@ -358,11 +358,13 @@ void soundstop (void) {
 	nosound();
 	};
 
+#ifndef NAOMI
 void timerset (int numero, int moodi, unsigned int arvo) {
 	outportb (0x43,64*numero+48+2*moodi+0);
 	outportb (0x40+numero, arvo);
 	outportb (0x40+numero, arvo>>8);
 	};
+#endif
 
 void sampadd (int instr, int len, int durfactor, int note) {
 	int *s;

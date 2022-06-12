@@ -55,6 +55,7 @@ void readspeed (void) {
 	systime/=4L;
 	};
 
+#ifndef NAOMI
 void readjoy (int *x, int *y) {				// may want to delay...
 	int n;
 
@@ -70,6 +71,7 @@ void readjoy (int *x, int *y) {				// may want to delay...
 		*x=-1; *y=-1;
 		};
 	};
+#endif
 
 int caldir (char *s, int *jx, int *jy) {
 	int result=0;

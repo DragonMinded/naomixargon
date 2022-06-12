@@ -11,6 +11,10 @@ all: xargon.bin
 SRCS  = $(wildcard source/*.c)
 SRCS += $(wildcard device/*.c)
 
+# Arbitrarily choose episode 1. We should make this configurable, or
+# at least spit out different executables per-episode.
+SRCS += volume/x_vol1.c
+
 # Find the include files that we care about.
 FLAGS += -I./
 

@@ -127,6 +127,7 @@ void pixaddr_vga (int x,int y,char **vidbuf,unsigned char *bitc) {
 	*vidbuf=(void*) (0xa0000000+drawofs+(80*y)+(x>>2));
 	*bitc=(x&3);
 	};
+#endif
 
 //		n<0 = erase
 void drawshape (vptype *vp, int n, int x, int y) {
@@ -164,6 +165,7 @@ void plot (vptype *vp, int x, int y, int color) {
 		};
 	};
 
+#ifndef NAOMI
 void waitsafe (void) {
 	do {} while (!(inportb(0x3da)&8));
 	};

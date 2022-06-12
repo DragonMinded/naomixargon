@@ -16,16 +16,16 @@
 int c_len=CFG_WIN_LENGTH;
 unsigned char CFG_WIN[];
 
-char xshafile[]="graphics.xr1";
-char xvocfile[]="audio.xr1";
-char cfgfname[]="config.xr1";
+char xshafile[]="rom://graphics.xr1";
+char xvocfile[]="rom://audio.xr1";
+char cfgfname[]="rom://config.xr1";
 char ext[]=".xr1";
-char tilefile[]="tiles.xr1";
-char xintrosong[]="song_0.xr1";
+char tilefile[]="rom://tiles.xr1";
+char xintrosong[]="rom://song_0.xr1";
 
 char *demoboard[1]={"intro"};
 char demolvl[1]={100};
-char *demoname[1]={"demo_mac.xr0"};
+char *demoname[1]={"rom://demo_mac.xr0"};
 
 char v_msg[]="VOLUME ONE --- Beyond Reality";
 

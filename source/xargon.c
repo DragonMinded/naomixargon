@@ -1339,7 +1339,6 @@ void dodemo (void) {
 	};
 
 void xargon_main (int argc, char *argv[]) {
-//	cfg_getpath(argc,argv); strcpy (tempname,path);
 	strcpy (tempname,"board_t"); strcat (tempname,ext);
 	if ((coreleft()+205968)<558080) rexit2(0);
 	loadcfg();
