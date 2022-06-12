@@ -664,8 +664,8 @@ void addscore (int sc,int x,int y) {
 		objs[n].state=sc;
 		objs[n].counter=30;
 //		objs[n].counter=24;
-		objs[n].xd=random(4)*((x>objs[0].x)-(x<objs[0].x));
-		objs[n].yd=random(4)+4;
+		objs[n].xd=randomrange(4)*((x>objs[0].x)-(x<objs[0].x));
+		objs[n].yd=randomrange(4)+4;
 		setobjsize(n);
 		};
 	pl.score+=sc; statmodflg|=mod_screen;
@@ -767,7 +767,7 @@ void touchbkgnd (int n) {
 			if (info[board(x,y)].flags&f_msgtouch) msg_block(x,y,msg_touch);
 			else if ((board(x,y+1)>=crum1)&&(board(x,y+1)<=crum_last)&&
 				((gamecount&3)==2)) {
-				addobj (obj_fragexpl,objs[n].x+random(10),objs[n].y+44,0,2);
+				addobj (obj_fragexpl,objs[n].x+randomrange(10),objs[n].y+44,0,2);
 				objs[numobjs-1].state=-1;
 				setboard (x,y+1,board(x,y+1)+1);
 				if (board(x,y+1)>crum_last) setboard(x,y+1,0);

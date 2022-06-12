@@ -18,6 +18,11 @@ FLAGS += -I./compat/
 
 # Modern C doesn't have a concept of a "far" pointer, we don't use DOS model here.
 FLAGS += -Dfar=
+FLAGS += -Dinterrupt=
+
+# Unix-like systems have no concept of binary or text files.
+FLAGS += -DO_BINARY=0
+FLAGS += -DO_TEXT=0
 
 # Compile "normal linux" as per the forked repo.
 FLAGS += -DNAOMI

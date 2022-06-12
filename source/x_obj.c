@@ -236,14 +236,14 @@ int msg_door (int n, int msg, int z) {
 				case 3: if (takeinv (inv_key3)) pobj->substate=1;
 				};
 			if (pobj->substate==1) {
-				txt ((char*)openmsg[random(4)],2,0);
+				txt ((char*)openmsg[randomrange(4)],2,0);
 				snd_play (4,snd_opendoor);
 				pobj->statecount=1;
 				for (c=0; c<=1; c++)	setboard(xc,yc+c,board(xc-1,yc+c));
 				setboard(xc,yc-1,board(xc-1,yc-1));
 				if (objs[z].objkind==obj_pad) killobj (z); return (1);
 				}
-			else txt ((char*)doormsg[random(4)],5,0);
+			else txt ((char*)doormsg[randomrange(4)],5,0);
 		}; return (0);
 	};
 
@@ -255,7 +255,7 @@ int msg_centexpl (int n, int msg, int z) {				// for centipede only
 		case msg_update:
 			if ((++pobj->statecount>=50)||(!onscreen(n))) killobj (n);
 			if (++pobj->yd>12) pobj->yd=12;
-			pobj->state=random(6)+((pobj->xd>0)?9:1);
+			pobj->state=randomrange(6)+((pobj->xd>0)?9:1);
 			if (!trymovey(n,pobj->x+pobj->xd,pobj->y+pobj->yd)) {
 				pobj->yd=-pobj->yd; snd_play (1,snd_hopperland);
 				}; return (1);
@@ -1351,12 +1351,12 @@ void explode1 (int x, int y, int num, int flg) {
 
 	for (c=0; c<num; c++) {
 		if (flg) {							// pebbles
-			addobj (obj_fragexpl,x,y,random(7)-3,random(11)-8);
+			addobj (obj_fragexpl,x,y,randomrange(7)-3,randomrange(11)-8);
 			objs[numobjs-1].state=-1;
 			}
 		else {
-			addobj (obj_fragexpl,x,y,random(7)-3,random(11)-8);
-			objs[numobjs-1].state=random(5);
+			addobj (obj_fragexpl,x,y,randomrange(7)-3,randomrange(11)-8);
+			objs[numobjs-1].state=randomrange(5);
 			};
 		};
 	};
@@ -1648,7 +1648,7 @@ int msg_searock (int n, int msg, int z) {
 
 	switch (msg) {
 		case msg_update:
-			if (random(14)==0) {
+			if (randomrange(14)==0) {
 				addobj (obj_bubble,pobj->x+2,pobj->y+4,0,0);	return (1);
 				}; break;
 		case msg_draw:
@@ -1873,7 +1873,7 @@ int msg_effects (int n, int msg, int z) {		// yd FREE
 						pobj->zaphold=3;
 						setcolor (250,60,60,63);
 						if (pobj->xd==0) setcolor (251,60,60,63);
-//						snd_play (2,snd_thunder1+random(3));
+//						snd_play (2,snd_thunder1+randomrange(3));
 						};
 					if (pobj->zaphold==0) {
 						pobj->zaphold=-1;
@@ -1930,10 +1930,10 @@ int msg_bubble (int n, int msg, int z) {
 
 	switch (msg) {
 		case msg_update:
-			if (random(15)==0) pobj->counter++;
+			if (randomrange(15)==0) pobj->counter++;
 			if ((pobj->counter>2)||(!onscreen(n))) killobj (n);
 			else {
-				if (!fishdo (n,pobj->x+random(3)-1,
+				if (!fishdo (n,pobj->x+randomrange(3)-1,
 					pobj->y-pobj->counter-1)) killobj(n);
 				}; return (1);
 		case msg_draw:
@@ -1971,13 +1971,13 @@ int msg_front (int n, int msg, int z) {
 		case msg_update: if ((pobj->state<13)||(pobj->state>14)) return (0);
 			if (pobj->state==13) {
 				if ((pobj->info1>=3)&&(random (abs(pobj->info1-42))==0)) {
-					addobj(obj_fire,pobj->x+random(36),pobj->y+random(8),0,0);
+					addobj(obj_fire,pobj->x+randomrange(36),pobj->y+randomrange(8),0,0);
 					objs[numobjs-1].state=1; mod1=0;
 					};
 				}
 			else {
-				if ((pobj->info1>=3)&&(random(abs(pobj->info1-42))==0)) {
-					addobj(obj_fire,pobj->x+random(56),pobj->y+random(32),0,0);
+				if ((pobj->info1>=3)&&(randomrange(abs(pobj->info1-42))==0)) {
+					addobj(obj_fire,pobj->x+randomrange(56),pobj->y+randomrange(32),0,0);
 					objs[numobjs-1].state=1; mod1=0;
 					};
 				};
@@ -1985,12 +1985,12 @@ int msg_front (int n, int msg, int z) {
 				pobj->substate=(pobj->substate+1)&7;
 				if (pobj->substate==0) dim(); else undim();
 				if (pobj->counter==2) setcolor (250,20,20,23);
-				explode1 (pobj->x+random(36+((pobj->state==14)?20:0)),
-					pobj->y+random(36+((pobj->state==14)?20:0)),1,1);
-				explode1 (pobj->x+random(36+((pobj->state==14)?20:0)),
-					pobj->y+random(36+((pobj->state==14)?20:0)),1,0);
-				addobj (obj_fireexpl,pobj->x+random(44+((pobj->state==14)?20:0))
-					-15,pobj->y+random(44+((pobj->state==14)?20:0))-15,0,0);
+				explode1 (pobj->x+randomrange(36+((pobj->state==14)?20:0)),
+					pobj->y+randomrange(36+((pobj->state==14)?20:0)),1,1);
+				explode1 (pobj->x+randomrange(36+((pobj->state==14)?20:0)),
+					pobj->y+randomrange(36+((pobj->state==14)?20:0)),1,0);
+				addobj (obj_fireexpl,pobj->x+randomrange(44+((pobj->state==14)?20:0))
+					-15,pobj->y+randomrange(44+((pobj->state==14)?20:0))-15,0,0);
 				if (pobj->statecount==0) {
 					objs[0].state=st_still;
 					snd_play (5,snd_enemykill1); addscore (20000,pobj->x,pobj->y);
@@ -2067,20 +2067,20 @@ int msg_front (int n, int msg, int z) {
 				pobj->info1++;
 				snd_play (4,snd_hitenemy4);
 				if (pobj->state==13) {
-					explode1 (pobj->x+random(36),pobj->y+random(36),2,0);
-					explode1 (pobj->x+random(36),pobj->y+random(36),3,1);
-					addobj (obj_fireexpl,pobj->x+random(28),
-						pobj->y+random(28),0,0);
-					addobj (obj_fireexpl,pobj->x+random(28),
-						pobj->y+random(28),0,0);
+					explode1 (pobj->x+randomrange(36),pobj->y+randomrange(36),2,0);
+					explode1 (pobj->x+randomrange(36),pobj->y+randomrange(36),3,1);
+					addobj (obj_fireexpl,pobj->x+randomrange(28),
+						pobj->y+randomrange(28),0,0);
+					addobj (obj_fireexpl,pobj->x+randomrange(28),
+						pobj->y+randomrange(28),0,0);
 					}
 				else {
-					explode1 (pobj->x+random(56),pobj->y+random(56),2,0);
-					explode1 (pobj->x+random(56),pobj->y+random(56),3,1);
-					addobj (obj_fireexpl,pobj->x+random(48),
-						pobj->y+random(48),0,0);
-					addobj (obj_fireexpl,pobj->x+random(48),
-						pobj->y+random(48),0,0);
+					explode1 (pobj->x+randomrange(56),pobj->y+randomrange(56),2,0);
+					explode1 (pobj->x+randomrange(56),pobj->y+randomrange(56),3,1);
+					addobj (obj_fireexpl,pobj->x+randomrange(48),
+						pobj->y+randomrange(48),0,0);
+					addobj (obj_fireexpl,pobj->x+randomrange(48),
+						pobj->y+randomrange(48),0,0);
 					};
 				killobj (z); return (1);
 				};
@@ -2094,7 +2094,7 @@ int msg_timerpad (int n, int msg, int z) {
 	switch (msg) {
 		case msg_update:
 			if (pobj->yd==1) {
-				if ((random(70)==0)&&(pobj->info1==0)) {
+				if ((randomrange(70)==0)&&(pobj->info1==0)) {
 					pobj->statecount=15;
 					pobj->info1=1;
 					};
@@ -2107,22 +2107,22 @@ int msg_timerpad (int n, int msg, int z) {
 				pobj->statecount--; return (0);
 				};
 			if (pobj->yd==2) {
-				if (random(50)==0) pobj->info1=2;
+				if (randomrange(50)==0) pobj->info1=2;
 				if (pobj->info1==0) return (0);
 				addobj(obj_fire,pobj->x,pobj->y-26,0,0);
 				snd_play (2,snd_firebrth);
 				pobj->info1=0; return (1);
 				};
 			if ((pobj->yd==3)&&(objs[0].state!=st_still)) {
-				if (random(pobj->counter)==0) {
+				if (randomrange(pobj->counter)==0) {
 					addobj (obj_flash,pobj->x-1,pobj->y-1,0,0);
 					addobj(obj_xargbot,pobj->x,pobj->y,0,0);
-					objs[numobjs-1].state=random(2);
+					objs[numobjs-1].state=randomrange(2);
 					snd_play (3,snd_xargfire); return (1);
 					}; return (0);
 				};
 			if (pobj->yd==4) {
-				if (random(200)==0) {
+				if (randomrange(200)==0) {
 					addobj (obj_flash,pobj->x-1,pobj->y-3,0,0);
 					addobj(obj_bonus,pobj->x,pobj->y,0,0);
 					objs[numobjs-1].state=pobj->state;
@@ -2130,7 +2130,7 @@ int msg_timerpad (int n, int msg, int z) {
 					}; return (0);
 				};
 			if ((pobj->yd==5)&&(objs[0].state!=st_still)) {
-				if (random(pobj->counter)==0) {
+				if (randomrange(pobj->counter)==0) {
 					addobj (obj_flash,pobj->x+6,pobj->y-6,0,0);
 					addobj(obj_creeper,pobj->x,pobj->y+2,-1,0);
 					snd_play (3,snd_grunt); return (1);
@@ -2187,7 +2187,7 @@ int msg_turret (int n, int msg, int z) {
 			drawshape (&gamevp,sh+pobj->xd,pobj->x,pobj->y); break;
 		case msg_touch:
 			if (kindflags[objs[z].objkind]&f_weapon) {
-				explode1 (pobj->x+random(16),pobj->y+(8),4,1);
+				explode1 (pobj->x+randomrange(16),pobj->y+(8),4,1);
 				snd_play (2,snd_hitwall);
 				if (objs[z].objkind!=obj_fireball) killobj (z); return (1);
 				};

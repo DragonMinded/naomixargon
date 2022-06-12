@@ -83,7 +83,7 @@ int msg_player (int n, int msg, int z) {
 						}
 					else if (pobj->statecount>=(fidgetmax-32)) mod1=1;
 					else if (pobj->statecount==(fidgetmax-42)) {
-						fidgetnum=random(4); txt (fidgetmsg[fidgetnum],6,0);
+						fidgetnum=randomrange(4); txt (fidgetmsg[fidgetnum],6,0);
 						}
 					else if (pobj->statecount==3) mod1=1;
 					if (cando (n,pobj->x,(pobj->y&0xfff0)+16,
@@ -166,7 +166,7 @@ int msg_player (int n, int msg, int z) {
 					}; break;
 			case st_die:
 				if (pobj->substate==die_bird) {
-					pobj->yd=min (pobj->yd++,8); pobj->xd=random(7)-3;
+					pobj->yd=min (pobj->yd++,8); pobj->xd=randomrange(7)-3;
 					justmove (n,pobj->x+pobj->xd,pobj->y+pobj->yd);
 					}
 				else if (pobj->substate==die_fish) {
@@ -473,7 +473,7 @@ int msg_heroswim  (int n, int msg, int z) {
 			pobj->xd=dx1*8;
 			if (onwater) {
 				pobj->yd+=dy1*3+(pobj->yd<2);
-				if (random(15)==0)
+				if (randomrange(15)==0)
 					addobj (obj_bubble,pobj->x+8,pobj->y-2,0,0);
 				pobj->yd=min(8,max(pobj->yd,-8));
 				}
