@@ -1,13 +1,13 @@
 // GAMECTRL.C
 
-#include <dos.h>;
-#include <fcntl.h>;
-#include <ctype.h>;
-#include <string.h>;
-#include <mem.h>;
-#include <conio.h>;
-#include <stdlib.h>;
-#include <io.h>;
+#include <dos.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <string.h>
+#include <mem.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <io.h>
 #include "include/keyboard.h";
 
 extern int gamecount;

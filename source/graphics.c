@@ -1,10 +1,10 @@
 // GR.C: Graphics Driver Controller
 
-#include <stdlib.h>;
-#include <dos.h>;
-#include <conio.h>;
-#include <mem.h>;
-#include <ctype.h>;
+#include <stdlib.h>
+#include <dos.h>
+#include <conio.h>
+#include <mem.h>
+#include <ctype.h>
 #include "include/gr.h";
 #include "include/keyboard.h";
 

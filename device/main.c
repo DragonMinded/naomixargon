@@ -8,6 +8,7 @@
 #include <naomi/video.h>
 #include <naomi/console.h>
 #include <naomi/thread.h>
+#include <naomi/romfs.h>
 
 // Defined in xargon.c
 void xargon_main (int argc, char *argv[]);
@@ -36,6 +37,9 @@ void main()
     // Set up the video thread so that even if we don't get to the main game loop we still
     // see console messages.
     video_thread_start();
+
+    // Init ROMFS so we can find files.
+    romfs_init_default();
 
     // Now, run the main executable.
     xargon_main((sizeof(argv) / sizeof(argv[0])) - 1, argv);

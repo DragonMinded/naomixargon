@@ -7,14 +7,14 @@
 //		shm_do   :Prepare shape tables (load/trash) using shm_want[]
 //		shm_exit :Terminate shape manager
 
-#include <stdlib.h>;
-#include <io.h>;
-#include <alloc.h>;
-#include <fcntl.h>;
-#include <string.h>;
-#include <math.h>;
-#include <mem.h>;
-#include "include/gr.h";
+#include <stdlib.h>
+#include <io.h>
+#include <alloc.h>
+#include <fcntl.h>
+#include <string.h>
+#include <math.h>
+#include <mem.h>
+#include "include/gr.h"
 
 extern void rexit (int num);
 
@@ -51,18 +51,18 @@ void init8bit (void) {					// Init pallette for numcolorbits=8
 void xlate_table (int n, char *addr, char *bucket1) {
 	unsigned char numshapes=0;
 	char numcolorbits=1;
-	int numrots;
-	long longcolor;
-	int len_cga, len_ega, len_vga, len;
+	uint16_t numrots;
+	int32_t longcolor;
+	uint16_t len_cga, len_ega, len_vga, len;
 	byte xs, xsb, ys;
 	byte storetype;
 	byte c;
-	int x,y,b,flags;
+	int16_t x,y,b,flags;
 	char *bucket,*tempbucket;
 	unsigned char databyte,shapebyte;
 	unsigned int colorand, colorshift;
 	char *dest;
-	int tblofs, dataofs;
+	uint16_t tblofs, dataofs;
 
 	readin (numshapes, addr, 1);
 	readin (numrots, addr, 2);
@@ -140,9 +140,9 @@ void xlate_table (int n, char *addr, char *bucket1) {
 	};
 
 void shm_do (void) {
-	long shoffset[128];
+	int32_t shoffset[128];
 	char *shaddr[128];
-	int shlen[128];					// Dual purpose
+	uint16_t shlen[128];					// Dual purpose
 	int shafile;
 	int c;
 	char*bucket1;

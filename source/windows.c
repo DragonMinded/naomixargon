@@ -1,7 +1,7 @@
 //	Windows.C: Window controller
 
-#include <dos.h>;
-#include <string.h>;
+#include <dos.h>
+#include <string.h>
 #include "include/gr.h";
 #include "include/keyboard.h"
 #include "include/windows.h";
