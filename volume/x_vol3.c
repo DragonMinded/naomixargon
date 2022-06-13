@@ -17,16 +17,16 @@ int c_len=CFG_WIN_LENGTH;
 unsigned char CFG_WIN[];
 
 char pgmname[]="XARGON_3";
-char xshafile[]="graphics.xr3";
-char xvocfile[]="audio.xr3";
-char cfgfname[]="config.xr3";
+char xshafile[]="rom://graphics.xr3";
+char xvocfile[]="rom://audio.xr3";
+char cfgfname[]="rom://config.xr3";
 char ext[]=".xr3";
-char tilefile[]="tiles.xr3";
-char xintrosong[]="song_0.xr3";
+char tilefile[]="rom://tiles.xr3";
+char xintrosong[]="rom://song_0.xr3";
 
 char *demoboard[1]={"intro"};
 char demolvl[1]={100};
-char *demoname[1]={"demo_mac.xr0"};
+char *demoname[1]={"rom://demo_mac.xr0"};
 
 char v_msg[]="VOLUME THREE --- Xargon's Fury";
 

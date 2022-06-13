@@ -24,7 +24,6 @@ char *memvoc;						// Size = memvocs*maxvoclen
 int soundoff=1;					// = 1 until set on
 int soundf=1;
 int makesound=0;
-int *myclock=(int*)((long)0x0040006cL);
 int notepriority,samppriority,oldpri;
 int soundcount;
 int SetDSP=0;

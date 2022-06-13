@@ -1,16 +1,38 @@
 #include <stddef.h>
 #include <naomi/video.h>
 #include <naomi/thread.h>
+#include <naomi/maple.h>
 #include "include/gr.h"
 
 static int video_thread;
 static int xargon_video_init = 0;
 
+// Shared with input.c
+extern int controls_needed;
+extern int controls_available;
+
+// Shared with main.c
+extern mutex_t control_mutex;
+
 void *video(void *param)
 {
     while ( 1 )
     {
+        // Draw console and game graphics.
         video_display_on_vblank();
+
+        // Now, poll for buttons where it is safe.
+        if (controls_needed)
+        {
+            mutex_lock(&control_mutex);
+            if (controls_needed)
+            {
+                controls_needed = 0;
+                controls_available = 1;
+                maple_poll_buttons();
+            }
+            mutex_unlock(&control_mutex);
+        }
     }
 }
 

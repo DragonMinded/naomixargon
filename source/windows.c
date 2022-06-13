@@ -8,7 +8,6 @@
 
 char cursorchar;
 int  curhi, curlo, curback;					// current color scheme
-extern int *myclock;
 
 void defwin (wintype *win,int x8,int y,int xl16,int yl16,int h16,int v16,int flags) {
 	win->winflags=flags;
@@ -164,8 +163,8 @@ int wgetkey (vptype *vp, int x, int y, int font) {
 	tempstr [1]=0;
 
 	while (!k_pressed()) {
-		oldclock=*myclock;
-		do {} while (oldclock==*myclock);
+		oldclock=getclock();
+		do {} while (oldclock==getclock());
 		cursorchar=(cursorchar&7)+1;
 		tempstr[0]=cursorchar;
 		wprint (vp,x,y,font,tempstr);

@@ -398,8 +398,8 @@ int loadsavewin (char *msg, char *blankmsg) {
 		wprint (&menu_win.inside,4,20+cur*10,2,tempstr);
 		delay (100);
 		wprint (&menu_win.inside,4,20+cur*10,2," ");
-		if (((dx1+dy1)!=0)&&(abs((*myclock)-moveclock)>1)) {
-			moveclock=(*myclock);
+		if (((dx1+dy1)!=0)&&(abs((getclock())-moveclock)>1)) {
+			moveclock=(getclock());
 			cur+=dx1+dy1;
 			if ((cur>=0)&&(cur<(numsaves))) snd_play (4,snd_jump);
 			cur=(max(0,min(cur,numsaves-1)));
@@ -509,8 +509,8 @@ void printline (vptype *ourvp, int y, int n, int flg) {
 	};
 
 void ourdelay (void) {
-	int c=*myclock;
-	do {} while ((*myclock-c)<0);
+	int c=getclock();
+	do {} while ((getclock()-c)<0);
 	};
 
 void rest (void) {
@@ -599,7 +599,7 @@ void putlevelmsg (int n) {
 	levelwin.topleft.vpy=levelwin.inside.vpy;
 	levelwin.topleft.vpyl=levelwin.inside.vpyl;
 
-	levelmsgclock=*myclock;
+	levelmsgclock=getclock();
 	if (n>=32) return;
 	textmsg=leveltxt[n];
 	textmsglen=strlen (textmsg);
@@ -688,7 +688,7 @@ void donelevelmsg (void) {
 	do checkctrl0(0); while (key!=0);
 	do {
 		checkctrl0(0);
-		dt=((*myclock)-levelmsgclock)/10;
+		dt=((getclock())-levelmsgclock)/10;
 		if ((key==escape)||(key==enter)) done=1;
 		else if ((dt>=2)&&(key||fire1)) done=1;
 		else if (dt>=4) done=1;
@@ -805,7 +805,7 @@ int domenu (char *menutext, char *keytab, int y0, int num, int demoflag,
 		wprint (&menuwin.inside,82+(cur>=y0)*textx0,78,2,soundf?"ON":"OFF");
 		}
 	setpagemode(1);
-	democlock=*myclock;
+	democlock=getclock();
 	for (cur=numlines()-1; cur>=0; cur--) {
 		fontcolor (&menuwin.inside,getline (cur,line,0),-1);
 		if (menuflag==1) {
@@ -833,15 +833,15 @@ int domenu (char *menutext, char *keytab, int y0, int num, int demoflag,
 		oldcur=cur;
 		checkctrl0(0);
 		key=toupper(key);
-		if (((dx1+dy1)!=0)&&(abs((*myclock)-moveclock)>1)) {
-			moveclock=(*myclock);
+		if (((dx1+dy1)!=0)&&(abs((getclock())-moveclock)>1)) {
+			moveclock=(getclock());
 			cur+=dx1+dy1;
 			if ((cur>=0)&&(cur<(num))) snd_play (4,snd_jump);
 			cur=min (num-1,max (0,cur));
-			democlock=(*myclock);
+			democlock=(getclock());
 			};
 
-		if ((((*myclock)-democlock)>400)&&demoflag) {
+		if ((((getclock())-democlock)>400)&&demoflag) {
 			key='D';
 			return (key);
 			};
@@ -1178,7 +1178,7 @@ void play (int demoflg) {
 				};
 			};
 
-		begclock=*myclock;
+		begclock=getclock();
 		gamecount++;
 		checkctrl(1);
 
@@ -1252,7 +1252,7 @@ void play (int demoflg) {
 		if (o_col==1) {init_colors(); o_col=0;};
 
 		if ((demoflg)&&(!macplay)) gameover=1;
-		while (((*myclock)-begclock)<(granny+1)) continue;
+		while (((getclock())-begclock)<(granny+1)) continue;
 	} while (!gameover);
 	key=0; stopmac(); macaborted=1;
 	if (gameover==2) pageview (200);					// Won!
@@ -1419,7 +1419,7 @@ void rexit (int num) {
 		if (vocflag) {
 			cputs ("           Turn off SOUND BLASTER sound effects.");
 			};
-		}; delay (1000); window (1,1,80,25); gotoxy (1,25); exit(1);
+		}; delay (1000); window (1,1,80,25); gotoxy (1,25); while( 1 ) { ; }
 	};
 
 void rexit2 (int n) {
@@ -1446,5 +1446,5 @@ void rexit2 (int n) {
 		cputs ("Sorry, you don't have enough free conventional\r\n");
 		cputs ("memory to run XARGON. You need at least	545K of\r\n");
 		cputs ("conventional memory to begin.");
-		}; delay (1000); window (1,1,80,25); gotoxy (1,25); exit(1);
+		}; delay (1000); window (1,1,80,25); gotoxy (1,25); while( 1 ) { ; }
 	};

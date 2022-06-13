@@ -17,16 +17,16 @@ int c_len=CFG_WIN_LENGTH;
 unsigned char CFG_WIN[];
 
 char pgmname[]="XARGON_2";
-char xshafile[]="graphics.xr2";
-char xvocfile[]="audio.xr2";
-char cfgfname[]="config.xr2";
+char xshafile[]="rom://graphics.xr2";
+char xvocfile[]="rom://audio.xr2";
+char cfgfname[]="rom://config.xr2";
 char ext[]=".xr2";
-char tilefile[]="tiles.xr2";
-char xintrosong[]="song_0.xr2";
+char tilefile[]="rom://tiles.xr2";
+char xintrosong[]="rom://song_0.xr2";
 
 char *demoboard[1]={"intro"};
 char demolvl[1]={100};
-char *demoname[1]={"demo_mac.xr0"};
+char *demoname[1]={"rom://demo_mac.xr0"};
 
 char v_msg[]="VOLUME TWO --- The Secret Chamber";
 

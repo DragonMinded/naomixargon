@@ -7,6 +7,11 @@
 #define fullxs 20
 #define fullys 13
 
+#ifdef NAOMI
+#include <stdio.h>
+#define HERE() printf("%s: %d\n", __FILE__, __LINE__)
+#endif
+
 #define sgn(x) ((x>0)-(x<0))
 
 extern vptype gamevp, statvp, textvp, tempvp;

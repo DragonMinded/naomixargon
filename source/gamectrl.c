@@ -14,7 +14,6 @@ extern int gamecount;
 extern int debug,swrite;
 
 long systime=0;
-extern char *myclock;
 extern long longclock;
 
 int dx1, dy1, fire1, fire2, fire1off, fire2off;
@@ -48,9 +47,9 @@ int buttona2 (void) {
 void readspeed (void) {
 	int oldclock;
 	systime=0;
-	oldclock=*myclock;
-	do {} while (*myclock==oldclock);
-	do {systime++;} while ((*myclock-oldclock)<5);
+	oldclock=getclock();
+	do {} while (getclock()==oldclock);
+	do {systime++;} while ((getclock()-oldclock)<5);
 // Now 5 intervals have passed
 	systime/=4L;
 	};
@@ -188,8 +187,8 @@ void checkctrl (int pollflag) {
 
 void checkctrl0 (int pollflag) {
 	static int oldclock=0;
-	do {} while (oldclock==*myclock);
-	oldclock=*myclock;
+	do {} while (oldclock==getclock());
+	oldclock=getclock();
 	checkctrl (pollflag);
 	};
 
