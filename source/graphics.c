@@ -143,7 +143,7 @@ void drawshape (vptype *vp, int n, int x, int y) {
 		};
 	if (shm_tbladdr[nt]!=LOST) {
 		tblptr=(shm_tbladdr [nt])+(ns*4);
-		shapeptr=shm_tbladdr [nt]+*(int*) tblptr;
+		shapeptr=shm_tbladdr [nt]+*(uint16_t*) tblptr;
 		xlb=(char) *(tblptr+2); yl=(char) *(tblptr+3);
 		x-=vp->vpox; y-=vp->vpoy;
 		if ((y<vp->vpyl)&&((y+yl)>=0)&&
