@@ -38,7 +38,7 @@ extern char newlevel[16],curlevel[16];
 #define mod_board 4				// if contents of board has changed
 
 typedef struct {
-	int sh;
+	int16_t sh;
 	int flags;
 	char *na;
 	} infotype;
