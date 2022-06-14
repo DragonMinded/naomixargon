@@ -12,6 +12,9 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 200
 
+// Palette fixup stuff.
+#define color6to8(x) (((x) << 2) | ((x) >> 4))
+
 // Parameters to control the video update thread, so we can pretend
 // to be a VGA card that updates on register writes.
 static int video_thread;
@@ -194,9 +197,9 @@ void vga_setpal(void)
     {
         color_t color;
 
-        color.r = vgapal[(i * 3) + Red];
-        color.g = vgapal[(i * 3) + Green];
-        color.b = vgapal[(i * 3) + Blue];
+        color.r = color6to8(vgapal[(i * 3) + Red]);
+        color.g = color6to8(vgapal[(i * 3) + Green]);
+        color.b = color6to8(vgapal[(i * 3) + Blue]);
         color.a = 255;
 
         bank[i] = ta_palette_entry(color);
@@ -247,9 +250,9 @@ void fadein(void)
         {
             color_t color;
 
-            color.r = currentpal[(i * 3) + Red];
-            color.g = currentpal[(i * 3) + Green];
-            color.b = currentpal[(i * 3) + Blue];
+            color.r = color6to8(currentpal[(i * 3) + Red]);
+            color.g = color6to8(currentpal[(i * 3) + Green]);
+            color.b = color6to8(currentpal[(i * 3) + Blue]);
             color.a = 255;
 
             bank[i] = ta_palette_entry(color);
@@ -277,9 +280,9 @@ void fadeout(void)
         {
             color_t color;
 
-            color.r = currentpal[(i * 3) + Red];
-            color.g = currentpal[(i * 3) + Green];
-            color.b = currentpal[(i * 3) + Blue];
+            color.r = color6to8(currentpal[(i * 3) + Red]);
+            color.g = color6to8(currentpal[(i * 3) + Green]);
+            color.b = color6to8(currentpal[(i * 3) + Blue]);
             color.a = 255;
 
             bank[i] = ta_palette_entry(color);
@@ -325,9 +328,9 @@ void setcolor (int c, int n1, int n2, int n3)
 
     color_t color;
 
-    color.r = n1;
-    color.g = n2;
-    color.b = n3;
+    color.r = color6to8(n1);
+    color.g = color6to8(n2);
+    color.b = color6to8(n3);
     color.a = 255;
 
     bank[c] = ta_palette_entry(color);
