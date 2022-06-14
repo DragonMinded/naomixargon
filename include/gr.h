@@ -15,6 +15,11 @@ extern int shm_flags[shm_maxtbls];
 #define shm_xxxxx 	2
 #define shm_blflag 	4
 
+// Palette stuff
+#define Red 0
+#define Green 1
+#define Blue 2
+
 //	Shape Manager Stuff
 
 #define st_byte		0

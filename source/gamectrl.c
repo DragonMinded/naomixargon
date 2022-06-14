@@ -8,7 +8,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <io.h>
-#include "include/keyboard.h";
+#include "include/keyboard.h"
 
 extern int gamecount;
 extern int debug,swrite;
@@ -37,11 +37,19 @@ int joyxl, joyxc, joyxr, joyyu, joyyc, joyyd;
 char keybuf [256];
 
 int buttona1 (void) {
+#ifdef NAOMI
+    return 0;
+#else
 	return ((inportb(0x201) & 0x10)==0);
+#endif
 	};
 
 int buttona2 (void) {
+#ifdef NAOMI
+    return 0;
+#else
 	return ((inportb(0x201) & 0x20)==0);
+#endif
 	};
 
 void readspeed (void) {

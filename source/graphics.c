@@ -5,12 +5,8 @@
 #include <conio.h>
 #include <mem.h>
 #include <ctype.h>
-#include "include/gr.h";
-#include "include/keyboard.h";
-
-#define Red 0
-#define Green 1
-#define Blue 2
+#include "include/gr.h"
+#include "include/keyboard.h"
 
 byte x_ourmode;
 vptype mainvp;
@@ -169,6 +165,7 @@ void plot (vptype *vp, int x, int y, int color) {
 void waitsafe (void) {
 	do {} while (!(inportb(0x3da)&8));
 	};
+#endif
 
 void fontcolor_vga (int hi, int lo, int back) {
 	cmtab [1][0]=255;
@@ -193,6 +190,7 @@ void initcolortabs_vga (void) {
 	cmtab[2][0]=255;
 	};
 
+#ifndef NAOMI
 void setpages (void) {
 	showofs=pageshow*pagelen;
 	drawofs=pagedraw*pagelen;

@@ -77,7 +77,7 @@ int coreleft()
 
 int randomrange(int max)
 {
-    return random() * max;
+    return (int)(((double)rand() / (double)RAND_MAX) * (double)max);
 }
 
 char *ltoa(long int l, char * out, int outlen)
@@ -116,7 +116,8 @@ unsigned long filelength(int fd)
 
 void delay(int amount)
 {
-    // Blank
+    // Sleep for amount milliseconds.
+    thread_sleep(amount * 1000);
 }
 
 void enable()

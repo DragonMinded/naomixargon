@@ -2,9 +2,9 @@
 
 #include <dos.h>
 #include <string.h>
-#include "include/gr.h";
+#include "include/gr.h"
 #include "include/keyboard.h"
-#include "include/windows.h";
+#include "include/windows.h"
 
 char cursorchar;
 int  curhi, curlo, curback;					// current color scheme

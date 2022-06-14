@@ -289,7 +289,6 @@ void sampadd1 (int instr, int len, int durfactor, int note) {
 	long tempfreq,sampfreq,playfreq;
 	int *s;
 
-	// printf (" %i-%i",instr,sampledur(instr));
 	s=samples(instr);
 	if (soundoff) return;
 	c=0;
