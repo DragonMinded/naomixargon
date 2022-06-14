@@ -36,6 +36,8 @@ extern int controls_available;
 extern mutex_t control_mutex;
 
 // Shared with graphics.c
+extern void *LOST;
+extern int pixelsperbyte;
 extern vptype mainvp;
 void initcolortabs_vga(void);
 void fontcolor_vga(int hi, int lo, int back);
@@ -105,6 +107,8 @@ void gr_init()
     mainvp.vpyl = SCREEN_HEIGHT;
     mainvp.vpox = 0;
     mainvp.vpoy = 0;
+    pixelsperbyte = 1;
+    LOST = malloc(1);
 
     // Create a texture that we can use to render to to use hardware stretching.
     uvsize = ta_round_uvsize(mainvp.vpxl > mainvp.vpyl ? mainvp.vpxl : mainvp.vpyl);
@@ -151,17 +155,24 @@ void gr_exit()
 
 void scrollvp (vptype *vp, int xd, int yd)
 {
-
+    // TODO
 }
 
 void scroll (vptype *vp, int x0, int y0, int x1, int y1, int xd, int yd)
 {
-
+    // TODO
 }
 
 void clrvp (vptype *vp, byte col)
 {
-
+    int buf = pagemode ? (1 - whichbuf) : whichbuf;
+    for (int yj = vp->vpy; yj < vp->vpy + vp->vpyl; yj++)
+    {
+        for (int xi = vp->vpx; xi < vp->vpx + vp->vpxl; xi++)
+        {
+            outbuf[buf][xi + (yj * uvsize)] = col;
+        }
+    }
 }
 
 void clrpal ()
@@ -208,18 +219,19 @@ void vga_setpal(void)
 
 void ldrawsh_vga (vptype *vp, int xpos, int ypos, int width, int height, char far *shape, int cmtable)
 {
+    int buf = pagemode ? (1 - whichbuf) : whichbuf;
     for (int yj = 0; yj < height; yj++)
     {
         int actual_y = ypos + yj;
         if (actual_y < vp->vpy) { continue; }
-        if (actual_y >= vp->vpyl) { break; }
+        if (actual_y >= (vp->vpy + vp->vpyl)) { break; }
         if (actual_y >= uvsize) { break; }
 
         for (int xi = 0; xi < width; xi++)
         {
             int actual_x = + xpos + xi;
             if (actual_x < vp->vpx) { continue; }
-            if (actual_x >= vp->vpxl) { break; }
+            if (actual_x >= (vp->vpx + vp->vpxl)) { break; }
             if (actual_x >= uvsize) { break; }
 
             // Look up actual palette index, but index 255 is transparent.
@@ -227,7 +239,6 @@ void ldrawsh_vga (vptype *vp, int xpos, int ypos, int width, int height, char fa
             char palindex = cmtab[cmtable][pixel];
             if (palindex == 255) { continue; }
 
-            int buf = pagemode ? (1 - whichbuf) : whichbuf;
             outbuf[buf][actual_x + (actual_y * uvsize)] = palindex;
         }
     }

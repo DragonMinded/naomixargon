@@ -24,7 +24,7 @@ int shm_tbllen[shm_maxtbls];
 int shm_flags[shm_maxtbls];
 
 char shm_fname[80];
-char colortab[256];
+uint8_t colortab[256];
 
 void shm_init (char *fname) {
 	int c;
