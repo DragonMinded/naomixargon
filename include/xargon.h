@@ -16,7 +16,7 @@
 
 extern vptype gamevp, statvp, textvp, tempvp;
 extern int scrnxs,scrnys;
-extern int bd [boardxs][boardys];
+extern uint16_t bd [boardxs][boardys];
 
 #define board(x,y) (bd[x][y]&0x3fff)
 #define modboard(x,y) bd[x][y]|=mod_screen;
@@ -72,15 +72,15 @@ int msg_block (int x, int y, int msg);
 #define msg_trigon 5
 
 typedef struct {
-	int level;
-	int health;
-	int emeralds;
-	int numinv;
-	int inv[30];					// Inventory
-	int ouched;
+	int16_t level;
+	int16_t health;
+	int16_t emeralds;
+	int16_t numinv;
+	int16_t inv[30];					// Inventory
+	int16_t ouched;
 	char pad[22];
-	unsigned long score;
-	} pltype;
+	uint32_t score;
+	} __attribute__((packed)) pltype;
 
 // Inventory
 #define inv_hero   0				// Hero, as in a life? NADA
@@ -109,14 +109,14 @@ extern const char *inv_getmsg[numinvkinds];
 // GAME OBJECTS
 typedef struct {
 	char objkind;
-	int x, y;
-	int xd, yd;
-	int xl,yl;
-	int state, substate, statecount, counter;
-	int objflags;
+	int16_t x, y;
+	int16_t xd, yd;
+	int16_t xl,yl;
+	int16_t state, substate, statecount, counter;
+	uint16_t objflags;
 	char *inside;
-	int info1;						// player=lastxd
-	int zaphold;
+	int16_t info1;						// player=lastxd
+	int16_t zaphold;
 	} objtype;
 
 #define maxobjs 256
@@ -159,7 +159,7 @@ extern int kindtable[numobjkinds];
 extern int kindscore[numobjkinds];
 
 extern objtype objs [maxobjs+2];
-extern int numobjs, numscrnobjs;
+extern int16_t numobjs, numscrnobjs;
 extern int scrnobjs [maxscrnobjs];
 extern int designflag;
 extern int gameover, gamecount, statmodflg;

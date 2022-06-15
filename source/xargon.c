@@ -25,7 +25,7 @@ extern unsigned _stklen=8192;
 wintype menu_win;
 vptype gamevp, statvp, textvp, tempvp;
 int scrnxs, scrnys;
-int bd [boardxs][boardys];
+uint16_t bd [boardxs][boardys];
 int scrollxd, scrollyd, oldscrollxd, oldscrollyd, oldx0, oldy0;
 
 int stateinfo [numstates];
@@ -39,7 +39,7 @@ int kindtable[numobjkinds];
 int kindscore[numobjkinds];
 
 objtype objs [maxobjs+2];
-int numobjs, numscrnobjs;
+int16_t numobjs, numscrnobjs;
 int scrnobjs [maxscrnobjs];
 int gameover, gamecount, statmodflg;	// gameover 0=no 1=yes-dead 2=yes-won
 char cnt_fruit, old_fruit, icon_fruit;
@@ -286,8 +286,9 @@ void savecfg (void) {
 
 void loadboard (char *fname) {
 	int boardfile;
-	char dest[16];
-	int c,tempint;
+	char dest[32];
+	int c;
+    uint16_t tempint;
 	int x,y;
 
 	// purging all shapes from memory to prevent memory fragmentation
@@ -301,7 +302,8 @@ void loadboard (char *fname) {
 	shm_want [6]=1;
 	shm_want [30]=1;
 
-	strcpy (dest,fname);
+    strcpy (dest, "rom://");
+	strcat (dest,fname);
 	if (strcmp(dest,tempname)!=0) strcat (dest,ext);
 
 	strcpy (curlevel,fname);
@@ -313,7 +315,27 @@ void loadboard (char *fname) {
 	boardfile=_open (dest,O_BINARY);
 	if (!read (boardfile,&bd,sizeof(bd))) rexit(1);
 	if (!read (boardfile,&numobjs,sizeof(numobjs))) rexit(2);
-	if (!read (boardfile,&objs,numobjs*sizeof(objs[0]))) rexit(3);
+    for (int wobj = 0; wobj < numobjs; wobj++)
+    {
+        uint8_t bdata[31];
+        if (!read (boardfile, bdata, 31)) rexit(3);
+
+        memcpy(&objs[wobj].objkind, &bdata[0], 1);
+        memcpy(&objs[wobj].x, &bdata[1], 2);
+        memcpy(&objs[wobj].y, &bdata[3], 2);
+        memcpy(&objs[wobj].xd, &bdata[5], 2);
+        memcpy(&objs[wobj].yd, &bdata[7], 2);
+        memcpy(&objs[wobj].xl, &bdata[9], 2);
+        memcpy(&objs[wobj].yl, &bdata[11], 2);
+        memcpy(&objs[wobj].state, &bdata[13], 2);
+        memcpy(&objs[wobj].substate, &bdata[15], 2);
+        memcpy(&objs[wobj].statecount, &bdata[17], 2);
+        memcpy(&objs[wobj].counter, &bdata[19], 2);
+        memcpy(&objs[wobj].objflags, &bdata[21], 2);
+        memcpy(&objs[wobj].inside, &bdata[23], 4);
+        memcpy(&objs[wobj].info1, &bdata[27], 2);
+        memcpy(&objs[wobj].zaphold, &bdata[29], 2);
+    }
 	if (!read (boardfile,&pl,sizeof(pl))) rexit(4);
 	if (!read (boardfile,&cnt_fruit,sizeof(cnt_fruit))) rexit(5);
 	for (c=0; c<numobjs; c++) {
@@ -338,10 +360,11 @@ void loadboard (char *fname) {
 
 void saveboard (char *fname) {
 	int boardfile;
-	char dest[16];
+	char dest[32];
 	int c,tempint;
 
-	strcpy (dest,fname);
+    strcpy (dest, "rom://");
+	strcat (dest,fname);
 	if (strcmp(dest,tempname)!=0) strcat (dest,ext);
 
 	boardfile=_creat (dest,0);				// Was O_BINARY
