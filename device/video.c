@@ -165,6 +165,8 @@ void scroll (vptype *vp, int x0, int y0, int x1, int y1, int xd, int yd)
 
 void clrvp (vptype *vp, byte col)
 {
+    // If we are in double-buffered mode, draw on the back buffer. Otherwise,
+    // draw directly to the screen buffer.
     int buf = pagemode ? (1 - whichbuf) : whichbuf;
     for (int yj = vp->vpy; yj < vp->vpy + vp->vpyl; yj++)
     {
@@ -219,6 +221,8 @@ void vga_setpal(void)
 
 void ldrawsh_vga (vptype *vp, int xpos, int ypos, int width, int height, char far *shape, int cmtable)
 {
+    // If we are in double-buffered mode, draw on the back buffer. Otherwise,
+    // draw directly to the screen buffer.
     int buf = pagemode ? (1 - whichbuf) : whichbuf;
     for (int yj = 0; yj < height; yj++)
     {
@@ -323,6 +327,8 @@ void setpagemode (int mode)
 {
     if (mode)
     {
+        // Must copy current buffer to the alt one.
+        memcpy(outbuf[1 - whichbuf], outbuf[whichbuf], uvsize * uvsize);
         pagemode = 1;
     }
     else
