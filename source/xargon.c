@@ -51,7 +51,7 @@ int granny=0;
 int levelmsgclock;
 int botcol,bottime,text_flg;
 
-char tempname [16];
+char tempname [32];
 char botmsg [50];
 char newlevel [16];
 char curlevel [16];
@@ -362,6 +362,12 @@ void saveboard (char *fname) {
 	int boardfile;
 	char dest[32];
 	int c,tempint;
+
+    // TODO: We need to be able to save temp boards since this is how
+    // the game remembers your position on the overworld map. We might
+    // stick a filesystem in memory for this? Probably easiest to just
+    // get an instance of littlefs up and running.
+    return;
 
     strcpy (dest, "rom://");
 	strcat (dest,fname);
@@ -1362,7 +1368,7 @@ void dodemo (void) {
 	};
 
 void xargon_main (int argc, char *argv[]) {
-	strcpy (tempname,"board_t"); strcat (tempname,ext);
+	strcpy(tempname, "rom://"); strcat (tempname,"board_t"); strcat (tempname,ext);
 	if ((coreleft()+205968)<558080) rexit2(0);
 	loadcfg();
 	clrscr();
