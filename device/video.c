@@ -222,21 +222,21 @@ void ldrawsh_vga (vptype *vp, int xpos, int ypos, int width, int height, char fa
     int buf = pagemode ? (1 - whichbuf) : whichbuf;
     for (int yj = 0; yj < height; yj++)
     {
-        int actual_y = ypos + yj;
+        int actual_y = vp->vpy + ypos + yj;
         if (actual_y < vp->vpy) { continue; }
         if (actual_y >= (vp->vpy + vp->vpyl)) { break; }
         if (actual_y >= uvsize) { break; }
 
         for (int xi = 0; xi < width; xi++)
         {
-            int actual_x = + xpos + xi;
+            int actual_x = + vp->vpx + xpos + xi;
             if (actual_x < vp->vpx) { continue; }
             if (actual_x >= (vp->vpx + vp->vpxl)) { break; }
             if (actual_x >= uvsize) { break; }
 
             // Look up actual palette index, but index 255 is transparent.
             uint8_t pixel = shape[xi + (width * yj)];
-            char palindex = cmtab[cmtable][pixel];
+            uint8_t palindex = cmtab[cmtable][pixel];
             if (palindex == 255) { continue; }
 
             outbuf[buf][actual_x + (actual_y * uvsize)] = palindex;
