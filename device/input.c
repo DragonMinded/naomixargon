@@ -26,7 +26,8 @@ unsigned char keydown[2][256];
 
 void k_status (void)
 {
-    // Blank
+    // Blank, this is used to set the shift statuses above in the original game, but we
+    // set this in our k_pressed handler.
 }
 
 void control_queue(char key)

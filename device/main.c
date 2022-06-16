@@ -71,7 +71,7 @@ int getclock()
 
 int coreleft()
 {
-    // TODO: How much memory is left
+    // TODO: Calculate how much memory is left
     return 8 * 1024 * 1024;
 }
 
@@ -130,9 +130,9 @@ void disable()
     // Blank
 }
 
-// TODO: Investigate having to implement this
 int _creat(char * name, int mode)
 {
+    // TODO: Investigate having to implement this, should be part of stdlib.
     return 0;
 }
 
