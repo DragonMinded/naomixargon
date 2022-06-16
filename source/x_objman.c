@@ -171,8 +171,16 @@ void p_ouch (int healthtake, int diemode) {
 	};
 
 void seekplayer (int n, int *dx, int *dy) {
-	*dx=(objs[0].x>objs[n].x)-(objs[0].x<objs[n].x);
-	*dy=(objs[0].y>objs[n].y)-(objs[0].y<objs[n].y);
+    // It looks like there's at least one case where seekplayer can be called with nulls.
+    // This might not have crashed in MSDOS but it certainly crashes the Sega Naomi.
+	if (dx)
+    {
+        *dx=(objs[0].x>objs[n].x)-(objs[0].x<objs[n].x);
+    }
+    if (dy)
+    {
+	    *dy=(objs[0].y>objs[n].y)-(objs[0].y<objs[n].y);
+    }
 	};
 
 void modscroll (int sxd, int syd, int modcode) {

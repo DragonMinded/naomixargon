@@ -1,4 +1,5 @@
 //	GR.H:  Header of data types for shapes
+#include <stdint.h>
 
 void setcolor (int c, int n1, int n2, int n3);
 
@@ -35,10 +36,10 @@ extern int shm_flags[shm_maxtbls];
 //	Graphics Driver Header
 
 typedef struct {
-	int vpx, vpy;							// Absolute start wrt Screen
-	int vpxl, vpyl;						// Length
-	int vpox, vpoy;						// Origin Offset
-	int vphi, vpback;
+	int16_t vpx, vpy;					// Absolute start wrt Screen
+	int16_t vpxl, vpyl;					// Length
+	int16_t vpox, vpoy;					// Origin Offset
+	int16_t vphi, vpback;
 	} vptype;
 
 #define varincrx -16304
