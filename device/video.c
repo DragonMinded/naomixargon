@@ -155,7 +155,60 @@ void gr_exit()
 
 void scrollvp (vptype *vp, int xd, int yd)
 {
-    // TODO
+    int xsrc, xdst, xamt;
+    int ydir, ysrc, ydst, yamt;
+
+    if (xd >= 0)
+    {
+        // Going forwards, starting at offset 0, moving forward xd pixels,
+        // and going for as many pixels as we are wide minus the offset.
+        xsrc = vp->vpx + 0;
+        xdst = vp->vpx + xd;
+        xamt = vp->vpxl - xd;
+    }
+    else
+    {
+        // Going backwrds, starting at offset -xd, moving backwards xd pixels,
+        // and going for as many pixels as we are wide minus the offset.
+        xsrc = vp->vpx - xd;
+        xdst = vp->vpx + 0;
+        xamt = vp->vpxl + xd;
+    }
+
+    if (yd >= 0)
+    {
+        // Going forwards, starting at offset 0, moving forward yd pixels,
+        // and going for as many pixels as we are wide minus the offset.
+        ydir = 1;
+        ysrc = vp->vpy + 0;
+        ydst = vp->vpy + yd;
+        yamt = vp->vpyl - yd;
+    }
+    else
+    {
+        // Going backwrds, starting at offset -yd, moving backwards yd pixels,
+        // and going for as many pixels as we are wide minus the offset.
+        ydir = -1;
+        ysrc = vp->vpy - yd;
+        ydst = vp->vpy + 0;
+        yamt = vp->vpyl + yd;
+    }
+
+    int buf = pagemode ? (1 - whichbuf) : whichbuf;
+    if (ydir < 0)
+    {
+        for (int yoff = 0; yoff < yamt; yoff++)
+        {
+            memmove(&outbuf[buf][((ydst + yoff) * uvsize) + xdst], &outbuf[buf][((ysrc + yoff) * uvsize) + xsrc], xamt);
+        }
+    }
+    else
+    {
+        for (int yoff = yamt - 1; yoff >= 0; yoff--)
+        {
+            memmove(&outbuf[buf][((ydst + yoff) * uvsize) + xdst], &outbuf[buf][((ysrc + yoff) * uvsize) + xsrc], xamt);
+        }
+    }
 }
 
 void scroll (vptype *vp, int x0, int y0, int x1, int y1, int xd, int yd)
@@ -200,6 +253,8 @@ void pageflip ()
     {
         ATOMIC(whichbuf = 1 - whichbuf);
     }
+
+    thread_wait_vblank_in();
 }
 
 void vga_setpal(void)
