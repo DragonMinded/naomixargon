@@ -17,8 +17,10 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 ## Default Controls
 
 * The 1P joystick controls standard player movement as well as menu navigation.
-* 1P Start is used to, select menu entries as well as pull up in-game inventory.
-* 2P Start is used to back out of menus.
+* 1P start is used to, select menu entries as well as pull up in-game inventory.
+* 2P start is used to back out of menus.
+* 1P button 1 is fire/throw rocks/etc.
+* 1P button 2 is jump.
 
 ## Known Issues
 
