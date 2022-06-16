@@ -22,11 +22,8 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 
 ## Known Issues
 
-* Windows that should scroll up/down for text reading currently do not scroll properly.
-* Map scrolls from off-screen when starting a game.
-* Levels scroll from the right when starting a level.
 * Cannot remember map position when entering/exiting a level, preventing more than one level from playing.
-* Crashes when attempting to enter scroll to the player in the first level on actual hardware.
+* Crashes when attempting to scroll to the player in the first level on actual hardware.
 * Flickering video under some circumstances on actual hardware.
 * No music.
 * No sound effects.
