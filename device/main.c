@@ -24,7 +24,7 @@ mutex_t control_mutex;
 void main()
 {
     // Fake arguments for the original main.
-    char *argv[] = { "xargon", "/NOSND", NULL };
+    char *argv[] = { "xargon", NULL };
 
     // Make sure we have a mutex for control input ready.
     mutex_init(&control_mutex);

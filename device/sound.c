@@ -10,8 +10,8 @@ void CloseWorx(void)
 
 int AdlibDetect(void)
 {
-    // TODO: Probably return true for this? We want to auto-detect that we can use the below functions.
-    return 0;
+    // Force audio detection if at all possible, since we have a working sound system.
+    return 1;
 }
 
 int DSPReset(void)

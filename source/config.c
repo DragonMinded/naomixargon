@@ -115,6 +115,7 @@ int doconfig (void) {
 			cputs (" Press any key to continue...");
 			getkey();
 			};
+#ifndef NAOMI
 		if (vocflag&&(systime<4000)) {			// Digital Sound
 			cputs ("\r\n\r\n");
 			cputs (" A Sound Blaster card was detected, but your CPU is\r\n");
@@ -142,6 +143,10 @@ int doconfig (void) {
 				} while ((key!='Y')&&(key!='N'));
 			cf.vocflag0=(key=='Y');
 			};
+#else
+            cf.vocflag0=1;
+#endif
+#ifndef NAOMI
 		if (musicflag) {								// Musical sound track
 			clrscr();
 			cputs ("\r\n\r\n\r\n");
@@ -155,6 +160,9 @@ int doconfig (void) {
 				} while ((key!='Y')&&(key!='N'));
 			cf.musicflag0=(key=='Y');
 			};
+#else
+            cf.musicflag0=1;
+#endif
 		clrscr();										// Game controller
 		cputs ("\r\n");
 		if (!gc_config()) return 0;
