@@ -4,6 +4,7 @@
 #include <naomi/ta.h>
 #include <naomi/thread.h>
 #include <naomi/maple.h>
+#include <naomi/timer.h>
 #include <naomi/interrupt.h>
 #include <naomi/sprite/sprite.h>
 #include "include/gr.h"
@@ -26,7 +27,8 @@ static int whichbuf = 0;
 static float xscale;
 static float yscale;
 static int yoff;
-static int debugxoff;
+static int debugxoff = -1;
+static int xargon_updates;
 
 // Shared with input.c
 extern int controls_needed;
@@ -44,13 +46,32 @@ void fontcolor_vga(int hi, int lo, int back);
 
 void *video(void *param)
 {
+#ifdef NAOMI_DEBUG
+    double video_thread_fps = 0.0;
+    double xargon_fps = 0.0;
+    uint32_t elapsed = 0;
+    int video_updates = 0;
+    int xargon_last_reset = 0;
+    task_scheduler_info_t sched;
+#endif
+
     while ( 1 )
     {
+#ifdef NAOMI_DEBUG
+        // Calculate instantaneous video thread FPS, should hover around 60 FPS.
+        int fps = profile_start();
+#endif
+
         // Draw the main screen if it is initialized.
         if (xargon_video_init)
         {
+            if (!pagemode)
+            {
+                // Emulating direct-draw, so we need to refresh every update.
+                ATOMIC(ta_texture_load(outtex->vram_location, outtex->width, 8, outbuf[whichbuf]));
+            }
+
             ta_commit_begin();
-            ATOMIC(ta_texture_load(outtex->vram_location, outtex->width, 8, outbuf[whichbuf]));
             sprite_draw_scaled(0, yoff, xscale, yscale, outtex);
             ta_commit_end();
 
@@ -59,12 +80,13 @@ void *video(void *param)
         }
 
 #ifdef NAOMI_DEBUG
-        video_draw_debug_text(debugxoff, 20, rgb(200, 200, 20), "Video FPS: %.01f, %dx%d", video_thread_fps, video_width(), video_height());
-        video_draw_debug_text(debugxoff, 30, rgb(200, 200, 20), "DOOM FPS: %.01f, %dx%d", doom_fps, SCREENWIDTH, SCREENHEIGHT);
-        video_draw_debug_text(debugxoff, 40, rgb(200, 200, 20), "Audio Buf Empty: %.01f%%", percent_empty * 100.0);
-        video_draw_debug_text(debugxoff, 50, rgb(200, 200, 20), "Music Volume: %d/15", m_volume);
-        video_draw_debug_text(debugxoff, 60, rgb(200, 200, 20), "IRQs: %lu", sched.interruptions);
-        video_updates ++;
+        if (debugxoff >= 0)
+        {
+            video_draw_debug_text(debugxoff, 20, rgb(200, 200, 20), "Video FPS: %.01f, %dx%d", video_thread_fps, video_width(), video_height());
+            video_draw_debug_text(debugxoff, 30, rgb(200, 200, 20), "Xargon FPS: %.01f, %dx%d", xargon_fps, SCREEN_WIDTH, SCREEN_HEIGHT);
+            video_draw_debug_text(debugxoff, 40, rgb(200, 200, 20), "IRQs: %lu", sched.interruptions);
+            video_updates ++;
+        }
 #endif
 
         // Draw console and game graphics.
@@ -82,6 +104,29 @@ void *video(void *param)
             }
             mutex_unlock(&control_mutex);
         }
+
+#ifdef NAOMI_DEBUG
+        // Calculate instantaneous FPS.
+        uint32_t uspf = profile_end(fps);
+        video_thread_fps = 1000000.0 / (double)uspf;
+
+        // Calculate Xargon and system FPS based on requested screen updates.
+        elapsed += uspf;
+        if (elapsed >= 1000000)
+        {
+            int frame_count;
+            ATOMIC({
+                frame_count = (xargon_updates - xargon_last_reset);
+                xargon_last_reset = xargon_updates;
+            });
+
+            xargon_fps = (double)frame_count * ((double)elapsed / 1000000.0);
+            elapsed = 0;
+        }
+
+        // Get task schduler info.
+        task_scheduler_info(&sched);
+#endif
     }
 }
 
@@ -122,7 +167,7 @@ void gr_init()
     memset(outbuf[1], 0, uvsize * uvsize);
 
     // Calculate the scaling factors and y offset. This is based off
-    // of the assumption that doom wants to be stretched to a 4:3 resolution.
+    // of the assumption that xargon wants to be stretched to a 4:3 resolution.
     if (video_is_vertical())
     {
         float yheight = ((float)video_width() * 3.0) / 4.0;
@@ -251,8 +296,15 @@ void pageflip ()
     // We only need to do a flip if we are double-buffering.
     if (pagemode)
     {
+        // Flip the page.
         ATOMIC(whichbuf = 1 - whichbuf);
+
+        // Load the texture itself.
+        ATOMIC(ta_texture_load(outtex->vram_location, outtex->width, 8, outbuf[whichbuf]));
     }
+
+    // Make sure we can calculate FPS in debug mode.
+    ATOMIC(xargon_updates++);
 
     thread_wait_vblank_in();
 }
