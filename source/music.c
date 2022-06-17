@@ -17,8 +17,12 @@ void sampadd (int instr,int len,int durfactor,int note);
 
 void timerset (int numero,int moodi,unsigned int arvo);
 
-#define memvocs 5
-#define maxvoclen 6144
+// Originally, this was set to a low number, but we have enough memory to hold
+// all sound effects just fine in memory. Additionally, we use the memory location
+// for a sound to figure out the sound's cache location, so let's make sure we
+// always have enough room in the memory store for all samples.
+#define memvocs (num_samps + 1)
+#define maxvoclen 6145
 char *memvoc;						// Size = memvocs*maxvoclen
 
 int soundoff=1;					// = 1 until set on
@@ -128,7 +132,10 @@ void getvoc (int c) {
 		*(memvoc+n*maxvoclen+0x1c)=(char)((voclen[c])>>8);
 		*(memvoc+n*maxvoclen+0x1e)=96;			// Speed = 256-1,000,000/rate
 		lseek (vocfilehandle,vocposn[c],SEEK_SET);
-		read (vocfilehandle,memvoc+n*maxvoclen+0x20,voclen[c]);
+		int amount = read (vocfilehandle,memvoc+n*maxvoclen+0x20,voclen[c]);
+        if (amount >= 0) {
+            *(memvoc+n*maxvoclen+0x20+amount) = 0;
+            };
 		};
 	};
 

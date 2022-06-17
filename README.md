@@ -28,7 +28,6 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 * Crashes when attempting to scroll to the player in the first level on actual hardware.
 * Flickering video under some circumstances on actual hardware.
 * No music.
-* No sound effects.
 * No test menu, game options, or control remapping.
 * No game saving or loading.
 

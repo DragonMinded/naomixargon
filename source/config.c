@@ -168,7 +168,9 @@ int doconfig (void) {
 		if (!gc_config()) return 0;
 		cf.joyflag0=joyflag;
 		};
+#ifndef NAOMI
 	if (systime<4000) {vocflag=0; cf.vocflag0=0;};
+#endif
 	cf.firstthru=0;
 	joyflag=cf.joyflag0;
 	cf.joyxl0=joyxl; cf.joyxc0=joyxc; cf.joyxr0=joyxr;
