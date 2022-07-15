@@ -206,7 +206,7 @@ void purgeobjs (void);
 void zapobjs (void);
 void setobjsize (int n);
 void addscore (int sc, int x, int y);
-void seekplayer (int n, int *dx, int *dy);
+void seekplayer (int n, int16_t *dx, int16_t *dy);
 
 int findcheckpt (int n);
 int trymove (int n, int newx, int newy);

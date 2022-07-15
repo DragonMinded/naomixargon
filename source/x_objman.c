@@ -170,7 +170,7 @@ void p_ouch (int healthtake, int diemode) {
 		};
 	};
 
-void seekplayer (int n, int *dx, int *dy) {
+void seekplayer (int n, int16_t *dx, int16_t *dy) {
     // It looks like there's at least one case where seekplayer can be called with nulls.
     // This might not have crashed in MSDOS but it certainly crashes the Sega Naomi.
 	if (dx)

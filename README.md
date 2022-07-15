@@ -25,7 +25,7 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 ## Known Issues
 
 * Cannot remember map position when entering/exiting a level, preventing more than one level from playing.
-* Crashes when attempting to scroll to the player in the first level on actual hardware.
+* Reboots when attempting to land on first platform on real hardware.
 * Flickering video under some circumstances on actual hardware.
 * No music.
 * No test menu, game options, or control remapping.
