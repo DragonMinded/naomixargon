@@ -28,6 +28,7 @@ static float xscale;
 static float yscale;
 static int yoff;
 static int debugxoff = -1;
+static int debugyoff = -1;
 static int xargon_updates;
 
 // Shared with input.c
@@ -82,9 +83,9 @@ void *video(void *param)
 #ifdef NAOMI_DEBUG
         if (debugxoff >= 0)
         {
-            video_draw_debug_text(debugxoff, 20, rgb(200, 200, 20), "Video FPS: %.01f, %dx%d", video_thread_fps, video_width(), video_height());
-            video_draw_debug_text(debugxoff, 30, rgb(200, 200, 20), "Xargon FPS: %.01f, %dx%d", xargon_fps, SCREEN_WIDTH, SCREEN_HEIGHT);
-            video_draw_debug_text(debugxoff, 40, rgb(200, 200, 20), "IRQs: %lu", sched.interruptions);
+            video_draw_debug_text(debugxoff, debugyoff + 0, rgb(0xFF, 0x6D, 0x0A), "Video FPS: %.01f, %dx%d", video_thread_fps, video_width(), video_height());
+            video_draw_debug_text(debugxoff, debugyoff + 10, rgb(0xFF, 0x6D, 0x0A), "Xargon FPS: %.01f, %dx%d", xargon_fps, SCREEN_WIDTH, SCREEN_HEIGHT);
+            video_draw_debug_text(debugxoff, debugyoff + 20, rgb(0xFF, 0x6D, 0x0A), "IRQs: %lu", sched.interruptions);
             video_updates ++;
         }
 #endif
@@ -175,6 +176,7 @@ void gr_init()
         yscale = yheight / (float)mainvp.vpyl;
         yoff = (video_height() - (int)yheight) / 2;
         debugxoff = 20;
+        debugyoff = 20;
     }
     else
     {
@@ -182,6 +184,7 @@ void gr_init()
         yscale = (float)video_height() / (float)mainvp.vpyl;
         yoff = 0;
         debugxoff = 400;
+        debugyoff = video_height() - (20 + (10 * 3));
     }
 
     // Set initial palette.
