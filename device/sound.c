@@ -461,7 +461,19 @@ char far *GetSequence(char *f_name)
     newsong->loc = 0;
 
     // Load the file, get its size.
-    FILE *fp = fopen(f_name, "r");
+    FILE *fp;
+    if (strncmp(f_name, "rom://", 6) != 0)
+    {
+        char tmp[512];
+        strcpy(tmp, "rom://");
+        strcat(tmp, f_name);
+        fp = fopen(tmp, "r");
+    }
+    else
+    {
+        fp = fopen(f_name, "r");
+    }
+
     if (!fp)
     {
         free(newsong);
