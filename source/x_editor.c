@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <alloc.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -78,7 +79,8 @@ int objdesign (int dx, int dy) {				// Returns 1 if need redraw
 		case 'A':
 			objnum=numobjs;
 			addobj (obj_killme,dx,dy,0,0);
-			editobj=1; break;
+			editobj=1;
+            break;
 		case 'D':
 			if (objnum>0) objs[objnum].objkind=obj_killme;
 			return (1);
@@ -95,9 +97,11 @@ int objdesign (int dx, int dy) {				// Returns 1 if need redraw
 			drawboard();
 			return (1);
 		case 'K':
-			if (objnum>=0) lastobj=objnum; break;
+			if (objnum>=0) lastobj=objnum;
+            break;
 		case 'M':
-			if (objnum>=0) editobj=1; break;
+			if (objnum>=0) editobj=1;
+            break;
 		};
 
 	if (editobj) {
@@ -358,7 +362,8 @@ void design (void) {
 					}; break;
 			case 'S':
 				infname ("Save:",tempfname);
-				if (tempfname[0]!='\0') saveboard (tempfname); break;
+				if (tempfname[0]!='\0') saveboard (tempfname);
+                break;
 			case 'C':
 				clearvp (&statvp);
 				wprint (&statvp,2,1,1,"New Color:");

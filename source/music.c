@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include <mem.h>
+#include <extra.h>
 #include "include/config.h"
 #include "include/music.h"
 #include "include/worx.h"
@@ -23,7 +24,7 @@ void timerset (int numero,int moodi,unsigned int arvo);
 // always have enough room in the memory store for all samples.
 #define memvocs (num_samps + 1)
 #define maxvoclen 6145
-char *memvoc;						// Size = memvocs*maxvoclen
+char *memvoc=NULL;				// Size = memvocs*maxvoclen
 
 int soundoff=1;					// = 1 until set on
 int soundf=1;
@@ -259,7 +260,7 @@ void snd_exit (void) {
 	if (dur!=NULL) free (dur);
 
 	for (c=0; c<num_macs; c++) if (soundmac[c]!=NULL) free (soundmac[c]);
-	if (memvocs!=NULL) free (memvoc);
+	if (memvoc!=NULL) free (memvoc);
 	if (vocfilehandle>=0) close (vocfilehandle);
 	if (oldint8!=NULL) setvect (8,oldint8);
 	if (SetDSP) DSPClose();

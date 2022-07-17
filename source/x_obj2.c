@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -40,13 +41,15 @@ int msg_grunt (int n, int msg, int z) {
 				seekplayer (n,&pobj->xd,&pobj->yd);
 				pobj->xd*=4;
 				};
-			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd; return (1);
+			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
+            return (1);
 		case msg_draw:
 			if (pobj->state>=4) sh+=grunt_die[pobj->statecount];
 			else if (pobj->xd==0) sh+=grunt_std[pobj->counter/2]+
 				((pobj->xd>0)?9:0);
 			else sh+=pobj->counter/2+((pobj->xd>0)?13:4);
-			drawshape (&gamevp,sh,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (pobj->state>=4) return (0);
 			if (z==0) hitplayer (n,0);
@@ -177,12 +180,14 @@ int msg_alien (int n, int msg, int z) {
 				seekplayer (n,&pobj->xd,&pobj->yd);
 				pobj->xd*=4;
 				};
-			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd; return (1);
+			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
+            return (1);
 		case msg_draw:
 			if (pobj->state>=3) sh+=alien_die[pobj->statecount];
 			else if (pobj->xd==0) sh+=(pobj->info1/4+10);
 			else sh+=pobj->counter/4+((pobj->xd>0)?0:5);
-			drawshape (&gamevp,sh,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (pobj->state>=3) return (0);
 			if (z==0) hitplayer (n,0);
@@ -192,7 +197,8 @@ int msg_alien (int n, int msg, int z) {
 				explode1 (pobj->x,pobj->y,4,0);
 				explode1 (pobj->x+8,pobj->y+4,4,1);
 				if (objs[z].objkind!=obj_fireball) killobj (z);
-				}; return (1);
+				};
+            return (1);
 		}; return (0);
 	};
 
@@ -212,11 +218,13 @@ int msg_leech (int n, int msg, int z) {
 			if (randomrange(40)==0) {
 				seekplayer (n,&pobj->xd,&pobj->yd); pobj->xd*=4;
 				};
-			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd; return (1);
+			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
+            return (1);
 		case msg_draw:
 			if (pobj->xd==0) sh+=((pobj->substate<0)?4:9);
 			else sh+=pobj->counter/2+((pobj->xd<0)?0:5);
-			drawshape (&gamevp,sh,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (z==0) hitplayer (n,0);
 			if (kindflags[objs[z].objkind]&f_weapon) {
@@ -232,7 +240,8 @@ int msg_leech (int n, int msg, int z) {
 					};
 				if (objs[z].objkind!=obj_fireball) killobj (z);
 				pobj->state++;
-				}; return (1);
+				};
+            return (1);
 		}; return (0);
 	};
 
@@ -434,10 +443,12 @@ int msg_krusty (int n, int msg, int z) {
 				};
 			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
 			if (randomrange(12)==0)
-				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0); return (1);
+				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+pobj->counter/2+
-				(pobj->xd<0)*6,pobj->x,pobj->y); break;
+				(pobj->xd<0)*6,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (pobj->state>=3) return (0);
 			if (z==0) hitplayer (n,1);
@@ -446,7 +457,8 @@ int msg_krusty (int n, int msg, int z) {
 				snd_play (4,snd_hitenemy3);
 				explode1 (pobj->x,pobj->y,4,1);
 				killobj (z);
-				}; return (1);
+				};
+            return (1);
 		}; return (0);
 	};
 
@@ -512,10 +524,12 @@ int msg_eel (int n, int msg, int z) {
 			if (!fishdo(n,pobj->x,pobj->y+pobj->yd))
 				pobj->yd=-pobj->yd;
 			if (randomrange(10)==0)
-				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0); return (1);
+				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+pobj->counter/2+(pobj->xd>0)*5,
-				pobj->x,pobj->y); break;
+				pobj->x,pobj->y);
+            break;
 		case msg_touch: if (z==0) {hitplayer (n,1); return (1);};
 		}; return (0);
 	};
@@ -546,13 +560,15 @@ int msg_badfish (int n, int msg, int z) {
 			if (!fishdo(n,pobj->x,pobj->y+pobj->yd))
 				pobj->yd=-pobj->yd;
 			if (randomrange(10)==0)
-				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0); return (1);
+				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
+            return (1);
 		case msg_draw:
 			if (pobj->state>=2) {
 				drawshape (&gamevp,sh+4+(pobj->xd>0)*5,pobj->x,pobj->y);
 				}
 			else drawshape (&gamevp,sh+pobj->counter/2+(pobj->xd>0)*5,
-				pobj->x,pobj->y); break;
+				pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (pobj->state>=2) return (0);
 			if (z==0) hitplayer (n,1);
@@ -561,7 +577,8 @@ int msg_badfish (int n, int msg, int z) {
 				snd_play (4,snd_hitenemy3);
 				explode1 (pobj->x,pobj->y,4,1);
 				killobj (z);
-				}; return (1);
+				};
+            return (1);
 		}; return (0);
 	};
 
@@ -586,7 +603,7 @@ int msg_bat (int n, int msg, int z) {
 
 int msg_hopper (int n, int msg, int z) {
 	int sh=kindtable[obj_hopper]*256;
-	int dx,dy;
+	int16_t dx,dy;
 	int mod1=0;
 	objtype *pobj; pobj=&(objs[n]);
 
@@ -644,7 +661,8 @@ int msg_creeper (int n, int msg, int z) {
 				};
 			if (++pobj->counter>=12) pobj->counter=0;
 			if (randomrange(30)==0) seekplayer (n,&pobj->xd,&pobj->yd);
-			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd; return (1);
+			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
+            return (1);
 		case msg_draw:
 			if (pobj->state>=3) {
 				drawshape (&gamevp,sh+(pobj->statecount/4)+6,pobj->x,pobj->y);
@@ -652,7 +670,8 @@ int msg_creeper (int n, int msg, int z) {
 			else {
 				drawshape (&gamevp,sh+pobj->counter/4+((pobj->xd>0)?3:0),
 					pobj->x,pobj->y);
-				}; break;
+				};
+            break;
 		case msg_touch:
 			if (pobj->state>=3) return (0);
 			if (z==0) hitplayer (n,0);
@@ -664,7 +683,8 @@ int msg_creeper (int n, int msg, int z) {
 					};
 				explode1 (pobj->x+8,pobj->y+4,4,1);
 				if (objs[z].objkind!=obj_fireball) killobj (z);
-				}; return (1);
+				};
+            return (1);
 		}; return (0);
 	};
 
@@ -751,10 +771,12 @@ int msg_spider (int n, int msg, int z) {
 			if (randomrange(40)==0) {
 				snd_play (2,snd_spider); seekplayer (n,&pobj->xd,&pobj->yd);
 				};
-			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd; return (1);
+			if (!crawl (n,pobj->xd,0)) pobj->xd=-pobj->xd;
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+pobj->counter/2+(pobj->xd<0)*9,
-				pobj->x,pobj->y); break;
+				pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (z==0) hitplayer (n,0);
 			if (kindflags[objs[z].objkind]&f_weapon) {
@@ -779,7 +801,8 @@ int msg_skull (int n, int msg, int z) {
 				addobj (obj_hitwall,pobj->x+((pobj->xd>0)?16:-12),pobj->y,0,0);
 				snd_play (2,snd_hitwall); killobj(n); return (1);
 				};	pobj->xd--;
-			if (pobj->xd<-10) pobj->xd=-10; return (1);
+			if (pobj->xd<-10) pobj->xd=-10;
+            return (1);
 		case msg_draw:	drawshape (&gamevp,sh,pobj->x,pobj->y); break;
 		case msg_touch: if (z==0) {hitplayer (n,0); killobj (n); return (1);}
 		}; return (0);
@@ -793,9 +816,11 @@ int msg_seamonster (int n, int msg, int z) {
 		case msg_update:
 			if (++pobj->counter>=20) pobj->counter=0;
 			if (randomrange(30)==0)
-				addobj (obj_bubble,pobj->x+10,pobj->y+4,0,0); return (1);
+				addobj (obj_bubble,pobj->x+10,pobj->y+4,0,0);
+            return (1);
 		case msg_draw:
-			drawshape (&gamevp,sh+pobj->counter/4,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh+pobj->counter/4,pobj->x,pobj->y);
+            break;
 		case msg_touch: if (z==0) {hitplayer (n,1); return (1);};
 		}; return (0);
 	};
@@ -852,10 +877,12 @@ int msg_redfish (int n, int msg, int z) {
 			if (!fishdo(n,pobj->x,pobj->y+pobj->yd))
 				pobj->yd=-pobj->yd;
 			if (randomrange(14)==0)
-				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0); return (1);
+				addobj (obj_bubble,pobj->x+6,pobj->y-2,0,0);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+pobj->counter/2+(pobj->xd>0)*4,
-				pobj->x,pobj->y); break;
+				pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (z==0) {
 				hitplayer (n,1); explode1 (pobj->x+4,pobj->y+4,5,0);

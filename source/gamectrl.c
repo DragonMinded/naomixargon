@@ -8,6 +8,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <io.h>
+#include <extra.h>
 #include "include/keyboard.h"
 
 extern int gamecount;

@@ -57,10 +57,9 @@ void xlate_table (int n, char *addr, char *bucket1) {
     byte xs, xsb, ys;
     byte storetype;
     byte c;
-    int x,y,b;
     uint16_t flags;
-    char *bucket,*tempbucket;
-    unsigned char databyte,shapebyte;
+    char *bucket;
+    unsigned char shapebyte;
     unsigned int colorand, colorshift;
     char *dest;
     int tblofs, dataofs;
@@ -124,9 +123,9 @@ void xlate_table (int n, char *addr, char *bucket1) {
         // There must have been some scrambled video mode used here, I don't know enough about
         // raw VGA in DOS to be sure.
         if (flags & shm_blflag) {
-            for (b=3; b>=0; b--) {
-                for (y=0; y<ys; y++) {
-                    for (x=0; x<xs; x+=4) {
+            for (int b=3; b>=0; b--) {
+                for (int y=0; y<ys; y++) {
+                    for (int x=0; x<xs; x+=4) {
                         shapebyte=colortab[*(byte*)(bucket+(x+b)+y*xs)];
                         wr1 (dest,dataofs,shapebyte);
                         };
@@ -137,8 +136,8 @@ void xlate_table (int n, char *addr, char *bucket1) {
 #else
         {
 #endif
-            for (y=0; y<ys; y++) {
-                for (x=0; x<xs; x++) {
+            for (int y=0; y<ys; y++) {
+                for (int x=0; x<xs; x++) {
                     shapebyte=colortab[(*(byte*)(bucket+x+y*xs))];
                     wr1 (dest, dataofs, shapebyte);
                     };

@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -23,7 +24,6 @@ int msg_block (int x, int y, int msg) {
 	int gc=(gamecount&3);
 	int xc=x<<4;
 	int yc=y<<4;
-	int c,a;
 
 	switch (msg) {
 		case msg_update:
@@ -140,7 +140,7 @@ int msg_block (int x, int y, int msg) {
 			else if ((bk>=watert1)&&(bk<=watert8)) {
 				if (objs[0].objkind!=obj_heroswim) p_ouch (5,die_ash);
 					}
-			else if ((bk>=waterfl1)&&(bk<=(waterfl4))||(bk==waterflt)) {
+			else if (((bk>=waterfl1)&&(bk<=(waterfl4)))||(bk==waterflt)) {
 				if ((gamecount-lastwater)>10) snd_play (2,snd_touchwater);
 				lastwater=gamecount;
 				}

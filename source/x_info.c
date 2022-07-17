@@ -16,8 +16,8 @@
 extern char tilefile[];
 
 void init_info (void) {
-	int16_t c,d,temp;
-	char len;
+	int16_t c,temp;
+	uint8_t len;
 	int flagsdef=f_notvine|f_notstair|f_notwater;
 	int blockfile;
 

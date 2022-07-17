@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -155,7 +156,8 @@ int msg_bridger (int n, int msg, int z) {
 				newcell=0; oldcell=dircell;
 				if (pobj->state==1) snd_play (2,snd_switchoff);
 				}
-			else newcell=dircell; {
+			else newcell=dircell;
+            {
 				oldcell=board(xc,yc);
 				if (pobj->state==1) snd_play (2,snd_switchon);
 				};
@@ -225,9 +227,11 @@ int msg_door (int n, int msg, int z) {
 					txt ("THE GATE OPENS",2,0);
 					setboard (xc,yc,board(xc+pobj->xd,yc+pobj->yd));
 					killobj (n);
-					if (objs[z].objkind==obj_pad) killobj (z); return (1);
+					if (objs[z].objkind==obj_pad) killobj (z);
+                    return (1);
 					}
-				else txt ("YOU NEED A GATE KEY TO PASS",5,0); break;
+				else txt ("YOU NEED A GATE KEY TO PASS",5,0);
+                break;
 				};
 			switch (pobj->state) {
 				case 0: if (takeinv (inv_key0)) pobj->substate=1; break;
@@ -241,7 +245,8 @@ int msg_door (int n, int msg, int z) {
 				pobj->statecount=1;
 				for (c=0; c<=1; c++)	setboard(xc,yc+c,board(xc-1,yc+c));
 				setboard(xc,yc-1,board(xc-1,yc-1));
-				if (objs[z].objkind==obj_pad) killobj (z); return (1);
+				if (objs[z].objkind==obj_pad) killobj (z);
+                return (1);
 				}
 			else txt ((char*)doormsg[randomrange(4)],5,0);
 		}; return (0);
@@ -346,12 +351,14 @@ int msg_spring (int n, int msg, int z) {
 
 	switch (msg) {
 		case msg_update:
-			if (pobj->statecount>0) pobj->statecount--; return (1); break;
+			if (pobj->statecount>0) pobj->statecount--;
+            return (1);
 		case msg_draw:
 			if (pobj->statecount>6) sh+=1;
 			else if (pobj->statecount>3) sh+=3;
 			else sh+=2;
-			drawshape (&gamevp,sh,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if ((objs[z].objkind==obj_player)&&(pobj->zaphold==0)) {
 				if ((objs[0].yd>0)&&((objs[0].y+objs[0].yl)>=(pobj->y+6))) {
@@ -383,7 +390,8 @@ int msg_arrow (int n, int msg, int z) {
 			if (pobj->xd>0) pobj->xd++;
 			else pobj->xd--; 
 			if (!justmove (n,pobj->x+pobj->xd,pobj->y+
-				ydtab[pobj->counter/2])) killobj (n); return (1);
+				ydtab[pobj->counter/2])) killobj (n);
+            return (1);
 		case msg_draw:	drawshape (&gamevp,sh+pobj->yd,pobj->x,pobj->y); break;
 		case msg_touch:
 			if (z==0) {
@@ -788,7 +796,8 @@ int msg_epic (int n, int msg, int z) {
 					explode1 (pobj->x,pobj->y,5,0);
 					killobj (n); snd_play (3,snd_stalagcrash);
 					}
-				else snd_play (3,snd_getfruit); return (1);
+				else snd_play (3,snd_getfruit);
+                return (1);
 				};
 			}; return (0);
 		};
@@ -868,16 +877,18 @@ int msg_box (int n, int msg, int z) {
 				explode1 (pobj->x,pobj->y,4,0);
 				if (pobj->yd!=0) addscore (50,pobj->x,pobj->y);
 				killobj (n);
-				if (objs[z].objkind!=obj_fireball) killobj (z); return (1);
+				if (objs[z].objkind!=obj_fireball) killobj (z);
+                return (1);
 				}; break;
 		case msg_trigger: 
 			pobj->substate=1;
-			if (objs[z].objkind==obj_pad) killobj (z); return (1);
+			if (objs[z].objkind==obj_pad) killobj (z);
+            return (1);
 		}; return (0);
 	};
 
 int msg_score (int n, int msg, int z) {
-	int c,sh;
+	int c;
 	char score[12];
 	objtype *pobj; pobj=&(objs[n]);
 
@@ -976,12 +987,14 @@ int msg_switch (int n, int msg, int z) {
 				if ((dy1<0)&&(pobj->state==1)) {
 					pobj->state=0; snd_play (2,snd_switchon);
 					if (pobj->xd==1) sendtrig (pobj->counter,msg_trigger,n);
-					else sendtrig (pobj->counter,msg_trigon,n); return (1);
+					else sendtrig (pobj->counter,msg_trigon,n);
+                    return (1);
 					}
 				else if ((dy1>0)&&(pobj->state==0)) {
 					pobj->state=1; snd_play (2,snd_switchoff);
 					if (pobj->xd==1) sendtrig (pobj->counter,msg_trigger,n);
-					else sendtrig (pobj->counter,msg_trigoff,n); return (1);
+					else sendtrig (pobj->counter,msg_trigoff,n);
+                    return (1);
 					};
 				};
 		}; return (0);
@@ -1205,7 +1218,8 @@ int msg_rock (int n, int msg, int z) {
 				snd_play (1,snd_rockbounce);
 				if ((c==pobj->y)||(!justmove(n,pobj->x,c))) pobj->yd=-pobj->yd;
 				};
-			if (!justmove(n,pobj->x,pobj->y)) killobj (n); return (1);
+			if (!justmove(n,pobj->x,pobj->y)) killobj (n);
+            return (1);
 		case msg_draw: drawshape (&gamevp,sh,pobj->x,pobj->y); break;
 		case msg_touch:
 			if ((z==0)&&(pobj->substate>7)) {killobj (n); return (1);}
@@ -1394,7 +1408,8 @@ int msg_fireexpl (int n, int msg, int z) {				// fireball explosion
 
 	switch (msg) {
 		case msg_update:
-			if ((++pobj->counter>=9)||(!onscreen(n))) killobj (n); return (1);
+			if ((++pobj->counter>=9)||(!onscreen(n))) killobj (n);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+exptab[pobj->counter],pobj->x,pobj->y);
 		}; return (0);
@@ -1411,7 +1426,8 @@ int msg_flash (int n, int msg, int z) {				// for bonus items
 			if ((pobj->yd==1)&&(pobj->info1==0)) {
 				pobj->info1=1; pobj->xl=14; pobj->yl=15;
 				};
-			if ((++pobj->counter>=16)||(!onscreen(n))) killobj (n); return (1);
+			if ((++pobj->counter>=16)||(!onscreen(n))) killobj (n);
+            return (1);
 		case msg_draw:
 			if (pobj->yd==0) {
 				drawshape (&gamevp,sh+59+expltab[pobj->counter],pobj->x,pobj->y);
@@ -1428,7 +1444,8 @@ int msg_hitwall (int n, int msg, int z) {
 
 	switch (msg) {
 		case msg_update:
-			if ((++pobj->counter>=7)||(!onscreen(n))) killobj (n); return (1);
+			if ((++pobj->counter>=7)||(!onscreen(n))) killobj (n);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+(pobj->counter/2),pobj->x,pobj->y);
 		}; return (0);
@@ -1681,7 +1698,8 @@ int msg_cloud (int n, int msg, int z) {
 			if (pobj->counter&1) {
 				destx=pobj->x+pobj->xd;
 				if (!justmove (n,destx,pobj->y)) pobj->xd=-pobj->xd;
-				}; return (1);
+				};
+            return (1);
 		case msg_draw: drawshape (&gamevp,sh,pobj->x,pobj->y);
 		}; return (0);
 	};
@@ -1693,7 +1711,8 @@ int msg_hithero (int n, int msg, int z) {				// when player gets hit
 
 	switch (msg) {
 		case msg_update:
-			if ((++pobj->counter>=11)||(!onscreen(n))) killobj (n); return (1);
+			if ((++pobj->counter>=11)||(!onscreen(n))) killobj (n);
+            return (1);
 		case msg_draw:
 			drawshape (&gamevp,sh+exptab[pobj->counter],pobj->x,pobj->y);
 		}; return (0);
@@ -1726,9 +1745,11 @@ int msg_spikes (int n, int msg, int z) {
 				return (1);
 				};
 			sh+=(25+pobj->state+(pobj->yd*4));
-			drawshape (&gamevp,sh,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh,pobj->x,pobj->y);
+            break;
 		case msg_touch:
-			if ((z==0)&&(pobj->state>0)) hitplayer (n,0); return (1);
+			if ((z==0)&&(pobj->state>0)) hitplayer (n,0);
+            return (1);
 		}; return (0);
 	};
 
@@ -1739,11 +1760,13 @@ int msg_transport (int n, int msg, int z) {
 		case msg_draw:									// Invisible!
 			if (designflag) {
 				drawshape (&gamevp,0x013e,pobj->x+4,pobj->y+4);
-				}; break;
+				};
+            break;
 		case msg_trigger:
 			moveobj (0,pobj->x,pobj->y-24);
 			setorigin(); moddrawboard();
-			if (pobj->xd==1) killobj (n); return (1);
+			if (pobj->xd==1) killobj (n);
+            return (1);
 		}; return (0);
 	};
 
@@ -1867,56 +1890,66 @@ int msg_effects (int n, int msg, int z) {		// yd FREE
 			if (pobj->state==-1) return (0);
 			switch (pobj->state) {
 				case 0: setcolor (250,0,0,0);			 		// black sky
-					setcolor (251,0,0,0); pobj->state=-1; break;
+					setcolor (251,0,0,0); pobj->state=-1;
+                    break;
 				case 1:									// simulate lightning
 					if (randomrange (25)==0) {
 						pobj->zaphold=3;
 						setcolor (250,60,60,63);
 						if (pobj->xd==0) setcolor (251,60,60,63);
-//						snd_play (2,snd_thunder1+randomrange(3));
 						};
 					if (pobj->zaphold==0) {
 						pobj->zaphold=-1;
 						setcolor (250,0,0,0); setcolor (251,0,0,0);
-						}; break;
+						};
+                    break;
 				case 2: setcolor (250,0,0,32);		 		// dk. blue sky
-					if (pobj->xd==0) setcolor (251,0,0,32); break;
+					if (pobj->xd==0) setcolor (251,0,0,32);
+                    break;
 				case 3:												// lt. blue sky
 					setcolor (176,8,16,25); setcolor (177,8,20,29);
 					setcolor (178,12,24,33); setcolor (179,16,28,41);
 					setcolor (180,20,32,45); setcolor (181,24,40,49);
 					setcolor (182,28,44,57); setcolor (183,36,48,60);
 					if (pobj->yd==0) setcolor (250,36,48,60);
-					if (pobj->xd==0) setcolor (251,36,48,60); break;
+					if (pobj->xd==0) setcolor (251,36,48,60);
+                    break;
 				case 4:												// yellow sky
 					setcolor (176,32,0,0); setcolor (177,40,0,0);
 					setcolor (178,52,0,0); setcolor (179,60,0,0);
 					setcolor (180,60,28,0); setcolor (181,60,40,0);
 					setcolor (182,60,52,0); setcolor (183,60,60,0);
 					if (pobj->yd==0) setcolor (250,60,60,0);
-					if (pobj->xd==0) setcolor (251,60,60,0); break;
+					if (pobj->xd==0) setcolor (251,60,60,0);
+                    break;
 				case 5:												// emerald sky
 					setcolor (176,0,12,12); setcolor (177,0,18,17);
 					setcolor (178,0,25,23); setcolor (179,0,32,27);
 					setcolor (180,0,39,32); setcolor (181,0,46,35);
 					setcolor (182,0,53,38); setcolor (183,0,60,40);
 					if (pobj->yd==0) setcolor (250,0,60,40);
-					if (pobj->xd==0) setcolor (251,0,60,40); break;
+					if (pobj->xd==0) setcolor (251,0,60,40);
+                    break;
 				case 6: setcolor (250,32,32,24);				// olive green
-					if (pobj->xd==0) setcolor (251,32,32,24); break;
+					if (pobj->xd==0) setcolor (251,32,32,24);
+                    break;
 				case 7:												// violet sky
 					setcolor (176,13,5,22); setcolor (177,18,8,27);
 					setcolor (178,23,13,33); setcolor (179,29,19,39);
 					setcolor (180,35,25,45); setcolor (181,42,32,51);
 					setcolor (182,49,40,57); setcolor (183,57,50,63);
 					if (pobj->yd==0) setcolor (250,57,50,63);
-					if (pobj->xd==0) setcolor (251,57,50,63); break;
+					if (pobj->xd==0) setcolor (251,57,50,63);
+                    break;
 				case 8: setcolor (250,23,23,23);				// factory grey
-					if (pobj->xd==0) setcolor (251,23,23,23); break;
+					if (pobj->xd==0) setcolor (251,23,23,23);
+                    break;
 				case 9: setcolor (250,12,23,63);		 		// royal blue
-					if (pobj->xd==0) setcolor (251,12,23,63); break;
+					if (pobj->xd==0) setcolor (251,12,23,63);
+                    break;
 				case 10: setcolor (250,20,20,23);			// factory grey v3
-					if (pobj->xd==0) setcolor (251,20,20,23); break;
+					if (pobj->xd==0) setcolor (251,20,20,23);
+                    break;
 				}; if (pobj->state>1) pobj->state=-1; break;
 		case msg_draw:
 			if (designflag) drawshape (&gamevp,0x017e,pobj->x+4,pobj->y+4);
@@ -1925,7 +1958,6 @@ int msg_effects (int n, int msg, int z) {		// yd FREE
 
 int msg_bubble (int n, int msg, int z) {
 	int sh=kindtable[obj_bubble]*256+16;
-	int c;
 	objtype *pobj; pobj=&(objs[n]);
 
 	switch (msg) {
@@ -1963,7 +1995,7 @@ int msg_txtmsg (int n, int msg, int z) {
 
 int msg_front (int n, int msg, int z) {
 	int sh=kindtable[obj_front]*256;
-	int nl,flash;
+	int nl;
 	int mod1=0;
 	objtype *pobj; pobj=&(objs[n]);
 
@@ -2152,7 +2184,9 @@ int msg_timerpad (int n, int msg, int z) {
 
 int msg_turret (int n, int msg, int z) {
 	int sh=kindtable[obj_turret]*256+11;
-	int c,dx,dy,newx,newy;
+	int c,dx,dy;
+    int newx=0;
+    int newy=0;
 	int mod1=0;
 	objtype *pobj; pobj=&(objs[n]);
 
@@ -2160,7 +2194,8 @@ int msg_turret (int n, int msg, int z) {
 		case msg_update:
 			if (pobj->state==1) return (0);
 			pointvect (0,n,&dx,&dy,3);
-			if (dx<-2) dx=-2; if (dx>2) dx=2;
+			if (dx<-2) dx=-2;
+            if (dx>2) dx=2;
 			if (dx!=pobj->xd) {pobj->xd=dx; mod1=1;};
 			if (pobj->statecount==32) {
 				for (c=168; c<172; c++) {				// change all blue to max
@@ -2182,17 +2217,21 @@ int msg_turret (int n, int msg, int z) {
 				snd_play (2,snd_enemyfire);
 				addobj (obj_bullet,newx,newy,pobj->xd,2);
 				objs[numobjs-1].state=1; mod1=1;
-				}; pobj->statecount++; return (mod1);
+				}; pobj->statecount++;
+            return (mod1);
 		case msg_draw:
-			drawshape (&gamevp,sh+pobj->xd,pobj->x,pobj->y); break;
+			drawshape (&gamevp,sh+pobj->xd,pobj->x,pobj->y);
+            break;
 		case msg_touch:
 			if (kindflags[objs[z].objkind]&f_weapon) {
 				explode1 (pobj->x+randomrange(16),pobj->y+(8),4,1);
 				snd_play (2,snd_hitwall);
-				if (objs[z].objkind!=obj_fireball) killobj (z); return (1);
+				if (objs[z].objkind!=obj_fireball) killobj (z);
+                return (1);
 				};
 			if (pobj->state==1) return (0);
-			if (z==0) hitplayer (n,0); return (1);
+			if (z==0) hitplayer (n,0);
+            return (1);
 		case msg_trigger: pobj->state=1-pobj->state; return (1);
 		}; return (0);
 	};
@@ -2257,15 +2296,18 @@ int msg_map (int n, int msg, int z) {
 					case 11:;
 					case 12: pobj->xl=38; pobj->yl=42;
 					};
-				}; break;
+				};
+            break;
 		case msg_draw:
 			if (pobj->state==-1) {
 				drawshape (&gamevp,sh2+pobj->substate,pobj->x+2,pobj->y+2);
 				}
 			else drawshape (&gamevp,sh+pobj->state,pobj->x+pobj->xd,
-				pobj->y+pobj->yd); break;
+				pobj->y+pobj->yd);
+            break;
 		case msg_touch:
-			if ((z==0)&&(pobj->substate==0)) pobj->substate=1; return (1);
+			if ((z==0)&&(pobj->substate==0)) pobj->substate=1;
+            return (1);
 		}; return (0);
 	};
 

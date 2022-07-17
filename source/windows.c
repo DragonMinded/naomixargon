@@ -2,6 +2,7 @@
 
 #include <dos.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"

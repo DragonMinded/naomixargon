@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -490,12 +491,12 @@ int msg_heroswim  (int n, int msg, int z) {
 				f=0;
 				for (c=0; c<numscrnobjs; c++)
 					f+=(objs[scrnobjs[c]].objkind==obj_torpedo);
-					if (f<1) {
-						addobj (obj_torpedo,pobj->x+22,pobj->y+25,6,0);
-						addobj (obj_torpedo,pobj->x-3,pobj->y+25,-6,0);
-						snd_play (2,snd_torpedo);
-						}
-					else snd_play (1,snd_error);
+                if (f<1) {
+                    addobj (obj_torpedo,pobj->x+22,pobj->y+25,6,0);
+                    addobj (obj_torpedo,pobj->x-3,pobj->y+25,-6,0);
+                    snd_play (2,snd_torpedo);
+                    }
+                else snd_play (1,snd_error);
 				};
 			if (pobj->yd>8) pobj->yd=8;
 			else if (pobj->yd<-8) pobj->yd=-8;
@@ -544,13 +545,13 @@ int msg_herobee (int n, int msg, int z) {
 				f=0;
 				for (c=0; c<numscrnobjs; c++)
 					f+=(objs[scrnobjs[c]].objkind==obj_laser);
-					if (f<1) {
-						pobj->xd=pobj->substate;
-						addobj (obj_laser,pobj->x+sgn(pobj->substate)*8,
-							pobj->y+14,sgn(pobj->substate)*8,dy1*2);
-						snd_play (2,snd_shoot);
-						};
-					};
+                if (f<1) {
+                    pobj->xd=pobj->substate;
+                    addobj (obj_laser,pobj->x+sgn(pobj->substate)*8,
+                        pobj->y+14,sgn(pobj->substate)*8,dy1*2);
+                    snd_play (2,snd_shoot);
+                    };
+                };
 			if (pobj->yd>8) pobj->yd=8;
 			else if (pobj->yd<-8) pobj->yd=-8;
 
@@ -568,7 +569,7 @@ int msg_herobee (int n, int msg, int z) {
 		}; return (0);
 	};
 
-int playerxfm (int xfmto) {
+void playerxfm (int xfmto) {
 	int c=0;
 	int newobj=obj_player;
 	int oldobj,oldxl,oldyl;

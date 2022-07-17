@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/gamectrl.h"
@@ -63,7 +64,6 @@ void cfg_init(int argc, char *argv[]) {
 
 int doconfig (void) {
 	int redo;
-	char tempstr[16];
 
 	redo=cf.firstthru;
 
@@ -135,10 +135,6 @@ int doconfig (void) {
 			do {
 				getkey();
 				key=toupper(key);
-//				if (key=='~') {
-//					ltoa (coreleft(),tempstr,10);
-//					cputs (tempstr);
-//					};
 				if (key==escape) return 0;
 				} while ((key!='Y')&&(key!='N'));
 			cf.vocflag0=(key=='Y');

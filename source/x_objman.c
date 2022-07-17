@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -229,7 +230,10 @@ void modscroll (int sxd, int syd, int modcode) {
 
 void scroll1 (int sxd, int syd) {
 	int x,y;
-	int cut0, cut1, cut2, cut3;
+	int cut0 = 0;
+    int cut1 = 0;
+    int cut2 = 0;
+    int cut3 = 0;
 	int startx, starty,startx2,starty2;
 	int endx, endy,endx2,endy2;
 

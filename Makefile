@@ -15,6 +15,9 @@ SRCS += $(wildcard device/*.c)
 # at least spit out different executables per-episode.
 SRCS += volume/x_vol1.c
 
+# Force all warnings to be errors to catch more stuff.
+FLAGS += -Werror
+
 # Find the include files that we care about.
 FLAGS += -I./
 

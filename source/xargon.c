@@ -1,7 +1,4 @@
 // Xargon Main File
-
-extern unsigned _stklen=8192;
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +8,7 @@ extern unsigned _stklen=8192;
 #include <io.h>
 #include <ctype.h>
 #include <alloc.h>
+#include <extra.h>
 #include "include/gr.h"
 #include "include/keyboard.h"
 #include "include/windows.h"
@@ -439,7 +437,7 @@ int loadsavewin (char *msg, char *blankmsg) {
 	};
 
 int loadgame (void) {
-	int num, hand;
+	int num;
 	char tempstr[16];
 	char boardname[16];
 
@@ -455,7 +453,7 @@ int loadgame (void) {
 	};
 
 void savegame (void) {
-	int num,hand;
+	int num;
 	char s[savelen];
 	char tempstr[16];
 	char boardname[16];
@@ -496,8 +494,6 @@ void stats (int num) {
 		while (invcount(inv_key3)) takeinv(inv_key3);
 		};
 	};
-
-void moddrawboard (void);
 
 int numlines (void) {
 	int a=0;
@@ -767,7 +763,7 @@ void moddrawboard (void) {
 	};
 
 void printhi (int newhi) {
-	int c,d,posn;
+	int c,posn=0;
 	char s[10];
 	wintype hiwin;
 
@@ -817,7 +813,7 @@ int domenu (char *menutext, char *keytab, int y0, int num, int demoflag,
 	wintype menuwin;
 	int count=0;
 	int democlock,gotkey,c,moveclock=0;
-	int cur;
+	int cur=0;
 	int oldcur=1;
 	char line [80];
 	gamecount=0;
@@ -971,7 +967,8 @@ void buymenu (void) {
 						pl.health++; pl.emeralds-=15; statmodflg|=mod_screen;
 						};
 					}
-				else dotextmsg (7,0); break;
+				else dotextmsg (7,0);
+                break;
 			case 'B':							// Extra laser
 				if (objs[0].objkind!=obj_player) {}
 				else if (pl.emeralds>=10) {
@@ -983,7 +980,8 @@ void buymenu (void) {
 						pl.emeralds-=10; statmodflg|=mod_screen;
 						};
 					}
-				else dotextmsg (7,0); break;
+				else dotextmsg (7,0);
+                break;
 			case 'C':							// Rapid fire
 				if (objs[0].objkind!=obj_player) {}
 				else if (pl.emeralds>=25) {
@@ -993,7 +991,8 @@ void buymenu (void) {
 					setcolor (166,56,0,0); setcolor (167,63,0,0);
 					pl.emeralds-=25; statmodflg|=mod_screen;
 					}
-				else dotextmsg (7,0); break;
+				else dotextmsg (7,0);
+                break;
 			case 'D':							// One fireball
 				if (objs[0].objkind!=obj_player) {}
 				else if (pl.emeralds>=5) {
@@ -1002,7 +1001,8 @@ void buymenu (void) {
 						pl.emeralds-=5; statmodflg|=mod_screen;
 						};
 					}
-				else dotextmsg (7,0); break;
+				else dotextmsg (7,0);
+                break;
 			case 'E':							// Five fireballs
 				if (objs[0].objkind!=obj_player) {}
 				else if (pl.emeralds>=20) {
@@ -1012,7 +1012,8 @@ void buymenu (void) {
 						pl.emeralds-=20; statmodflg|=mod_screen;
 						};
 					}
-				else dotextmsg (7,0); break;
+				else dotextmsg (7,0);
+                break;
 			case 'F':							// Invincibility
 				if (pl.emeralds>=30) {
 					if (!invcount(inv_invin)) {
@@ -1144,11 +1145,10 @@ void gamemenu (void) {
 	};
 
 void play (int demoflg) {
-	int c,d,begclock,temppage;
+	int c,begclock,temppage;
 	int o_col=0;
 	int cheatchar=0;
 	int cheatcount=0;
-	char tempstr[16];
 	gamecount=0; gameover=0;
 
 	newlevel[0]='\0';
@@ -1157,7 +1157,6 @@ void play (int demoflg) {
 	enable();
 
 	do {
-//		enable();
 		if (newlevel[0]!='\0') {
 			txt (v_msg,4,1);
 			if (newlevel[0]=='*') {
@@ -1179,8 +1178,6 @@ void play (int demoflg) {
 				playmac (newlevel);
 				strcpy (oursong,"song_33.xr1");
 				sb_playtune ("song_33.xr1");
-//				strcpy (oursong,newlevel);
-//				if (!sb_playing()) sb_playtune (newlevel);
 				newlevel[0]='\0';
 				}
 			else if (newlevel[0]=='!') {
@@ -1239,7 +1236,8 @@ void play (int demoflg) {
 						savegame(); drawstats();
 						pagedraw=temppage; setpages(); moddrawboard();
 						}
-					else dotextmsg (4,0); break;
+					else dotextmsg (4,0);
+                    break;
 				case 'L':												// LOAD
 					snd_play (4,snd_masher);
 					temppage=pagedraw; pagedraw=pageshow; setpages();
@@ -1252,13 +1250,15 @@ void play (int demoflg) {
 						}
 					else {
 						pagedraw=temppage; setpages(); moddrawboard();
-						}; break;
+						};
+                    break;
 				case 'P': dotextmsg(6,0); break;					// PAUSE
 				case 'B':												// BUYMENU
 					c=findcheckpt(0);
 					if (objs[c].state!=5) {
 						 setpagemode(0); buymenu();
-						 }; break;
+						 };
+                    break;
 				case enter: setpagemode(0); inv_win(); break;
 				case 'G': granny=!granny; break;					// GRANNY MODE
 				case 'N': soundf=!soundf; break;					// NOISE
@@ -1452,8 +1452,6 @@ void rexit (int num) {
 	};
 
 void rexit2 (int n) {
-	char errnum[12];
-
 	if (n) {
 		gr_exit();
 		gc_exit();

@@ -523,7 +523,7 @@ void StopSequence(void)
 }
 
 
-void setvect(void *vect)
+void setvect(int vno, void *vect)
 {
     // Blank, we don't need interrupt vector support.
 }

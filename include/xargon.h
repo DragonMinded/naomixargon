@@ -20,7 +20,7 @@ extern uint16_t bd [boardxs][boardys];
 
 #define board(x,y) (bd[x][y]&0x3fff)
 #define modboard(x,y) bd[x][y]|=mod_screen;
-#define setboard(x,y,n) bd[x][y]=n|mod_screen;
+#define setboard(x,y,n) bd[x][y]=(n)|mod_screen;
 
 extern int scrollxd, scrollyd, oldscrollxd, oldscrollyd, oldx0, oldy0;
 extern char newlevel[16],curlevel[16];
@@ -108,7 +108,7 @@ extern const char *inv_getmsg[numinvkinds];
 
 // GAME OBJECTS
 typedef struct {
-	char objkind;
+	uint8_t objkind;
 	int16_t x, y;
 	int16_t xd, yd;
 	int16_t xl,yl;
@@ -221,7 +221,7 @@ void moveobj (int n, int newx, int newy);
 int trymovey (int n, int newx, int newy);
 int crawl (int n, int dx, int dy);
 
-int playerxfm (int n);
+void playerxfm (int n);
 int trybreakwall (int n, int x, int y);
 void explode1 (int x, int y, int n, int flg);
 void explode2 (int n);
