@@ -25,7 +25,7 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 ## Known Issues
 
 * Cannot remember map position when entering/exiting a level, preventing more than one level from playing.
-* Flickering video under some circumstances on actual hardware.
+* Title screen corruption on fade-in of main menu.
 * Somewhat laggy gameplay and control inputs, needs optimization.
 * No test menu, game options, or control remapping.
 * No game saving or loading.
