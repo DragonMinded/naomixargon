@@ -14,7 +14,6 @@
 extern int gamecount;
 extern int debug,swrite;
 
-long systime=0;
 extern long longclock;
 
 int dx1, dy1, fire1, fire2, fire1off, fire2off;
@@ -51,16 +50,6 @@ int buttona2 (void) {
 #else
 	return ((inportb(0x201) & 0x20)==0);
 #endif
-	};
-
-void readspeed (void) {
-	int oldclock;
-	systime=0;
-	oldclock=getclock();
-	do {} while (getclock()==oldclock);
-	do {systime++;} while ((getclock()-oldclock)<5);
-// Now 5 intervals have passed
-	systime/=4L;
 	};
 
 #ifndef NAOMI

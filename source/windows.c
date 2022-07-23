@@ -164,6 +164,7 @@ int wgetkey (vptype *vp, int x, int y, int font) {
 	tempstr [1]=0;
 
 	while (!k_pressed()) {
+        // TODO: Better wait mechanism here?
 		oldclock=getclock();
 		do {} while (oldclock==getclock());
 		cursorchar=(cursorchar&7)+1;

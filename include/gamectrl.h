@@ -6,7 +6,6 @@ extern int joyflag;
 extern int key;
 extern int dx1hold, dy1hold, flow1;
 extern int joyxsense, joyysense;
-extern long systime;
 
 void readspeed (void);
 int joypresent (void);

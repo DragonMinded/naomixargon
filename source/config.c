@@ -1,10 +1,5 @@
 // CONFIG.C,H: Configuration routines
 
-//	systime =
-//		5452 (286-8)
-//		17819 (386-16)
-//		36392 (386-33)
-
 #include <alloc.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -30,7 +25,6 @@ struct {
 
 void cfg_init(int argc, char *argv[]) {
 	int c;
-	char s[16];
 
 	clrscr();
 	cputs ("\r\n\r\nDetecting your hardware...\r\n");
@@ -42,15 +36,9 @@ void cfg_init(int argc, char *argv[]) {
 	cputs ("   "); cputs ("XARGON");
 		cputs (" /NOSND (If all else fails)\r\n");
 
-	readspeed();
 	for (c=0; c<argc; c++) {
 		strupr (argv[c]);
-		if (!strcmp (argv[c],"/TEST")) {
-			ltoa (systime,s,10);
-			cputs (s);
-			getkey();
-			}
-		else if (!strcmp (argv[c],"/NOSB")) {
+		if (!strcmp (argv[c],"/NOSB")) {
 			vocflag=0; musicflag=0;
 			}
 		else if (!strcmp (argv[c],"/SB")) {
@@ -58,7 +46,6 @@ void cfg_init(int argc, char *argv[]) {
 		else if (!strcmp(argv[c],"/NOSND")) {
 			vocflag=0; musicflag=0; nosnd=1;
 			};
-//		else if (!strcmp(argv[c],"/DEMO")) cfgdemo=1;
 		};
 	};
 
@@ -116,15 +103,7 @@ int doconfig (void) {
 			getkey();
 			};
 #ifndef NAOMI
-		if (vocflag&&(systime<4000)) {			// Digital Sound
-			cputs ("\r\n\r\n");
-			cputs (" A Sound Blaster card was detected, but your CPU is\r\n");
-			cputs (" too slow to support digitized sound.  Digital sound\r\n");
-			cputs (" is now OFF.\r\n\r\n");
-			cputs (" Press any key to continue...");
-			getkey();
-			}
-		else if (vocflag) {
+		if (vocflag) {
 			cputs (" A Sound Blaster card has been detected.\r\n\r\n");
 			cputs (" This game will play high-quality digital sound\r\n");
 			cputs (" through your Sound Blaster if you wish.\r\n\r\n");
@@ -164,9 +143,6 @@ int doconfig (void) {
 		if (!gc_config()) return 0;
 		cf.joyflag0=joyflag;
 		};
-#ifndef NAOMI
-	if (systime<4000) {vocflag=0; cf.vocflag0=0;};
-#endif
 	cf.firstthru=0;
 	joyflag=cf.joyflag0;
 	cf.joyxl0=joyxl; cf.joyxc0=joyxc; cf.joyxr0=joyxr;
