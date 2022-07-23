@@ -39,7 +39,7 @@ FLAGS += -DNAOMI
 CSTD = gnu99
 
 # We are using the add-on sprite library for scaled screen draw.
-LIBS += -lnaomisprite -lnaomisramfs -lz -llfs -lmpg123
+LIBS += -lnaomisprite -lnaomisramfs -lnaomitmpfs -lz -llfs -lmpg123
 
 # We want a different serial to make this unique.
 SERIAL = BXR0

@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <naomi/video.h>
 #include <naomi/console.h>
 #include <naomi/thread.h>
 #include <naomi/romfs.h>
+#include <naomi/tmpfs/tmpfs.h>
 
 // Defined in xargon.c
 void xargon_main (int argc, char *argv[]);
@@ -40,6 +42,9 @@ void main()
 
     // Init ROMFS so we can find files.
     romfs_init_default();
+
+    // Init TMPFS so the game has a place to store temp files.
+    tmpfs_init_default(0, 256 * 1024);
 
     // Now, run the main executable.
     xargon_main((sizeof(argv) / sizeof(argv[0])) - 1, argv);
@@ -132,8 +137,9 @@ void disable()
 
 int _creat(char * name, int mode)
 {
-    // TODO: Investigate having to implement this, should be part of stdlib.
-    return 0;
+    // Create a file, with the given mode. Xargon seems to only ever pass "0" as the mode so
+    // we don't really worry about it.
+    return open(name, O_CREAT|O_WRONLY|O_TRUNC, mode);
 }
 
 int outportb(int thing)

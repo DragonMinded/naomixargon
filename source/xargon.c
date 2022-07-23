@@ -285,12 +285,11 @@ void savecfg (void) {
 void loadboard (char *fname) {
 	int boardfile;
 	char dest[32];
-	int c;
     uint16_t tempint;
 	int x,y;
 
 	// purging all shapes from memory to prevent memory fragmentation
-	for (c=0; c<64; c++) {shm_want[c]=0;};
+	for (int c=0; c<64; c++) {shm_want[c]=0;};
 	shm_do();
 
 	shm_want [1]=1;							// load shapes needed
@@ -300,13 +299,17 @@ void loadboard (char *fname) {
 	shm_want [6]=1;
 	shm_want [30]=1;
 
-    strcpy (dest, "rom://");
-	strcat (dest,fname);
-	if (strcmp(dest,tempname)!=0) strcat (dest,ext);
+	if (strcmp(fname,tempname)!=0) {
+        strcpy (dest, "rom://");
+	    strcat (dest,fname);
+        strcat (dest,ext);
+    } else {
+        strcpy (dest,fname);
+    }
 
 	strcpy (curlevel,fname);
 	zapobjs ();
-	for (c=162; c<168; c++) {					// reset laser colors
+	for (int c=162; c<168; c++) {					// reset laser colors
 		setcolor (c,vgapal[c*3+0],vgapal[c*3+1],vgapal[c*3+2]);
 		};
 
@@ -336,7 +339,7 @@ void loadboard (char *fname) {
     }
 	if (!read (boardfile,&pl,sizeof(pl))) rexit(4);
 	if (!read (boardfile,&cnt_fruit,sizeof(cnt_fruit))) rexit(5);
-	for (c=0; c<numobjs; c++) {
+	for (int c=0; c<numobjs; c++) {
 		if (objs[c].inside!=NULL) {
 			read (boardfile,&tempint,sizeof(tempint));
 			objs[c].inside=malloc(tempint+1);
@@ -350,7 +353,7 @@ void loadboard (char *fname) {
 			shm_want[(info[board(x,y)].sh>>8)&0x3f]=1;
 			};
 		};
-	for (c=0; c<numobjs; c++) {
+	for (int c=0; c<numobjs; c++) {
 		shm_want [kindtable[objs[c].objkind]]=1;
 		};
 	shm_do();
@@ -359,26 +362,44 @@ void loadboard (char *fname) {
 void saveboard (char *fname) {
 	int boardfile;
 	char dest[32];
-	int c,tempint;
+    uint16_t tempint;
 
-    // TODO: We need to be able to save temp boards since this is how
-    // the game remembers your position on the overworld map. We might
-    // stick a filesystem in memory for this? Probably easiest to just
-    // get an instance of littlefs up and running.
-    return;
-
-    strcpy (dest, "rom://");
-	strcat (dest,fname);
-	if (strcmp(dest,tempname)!=0) strcat (dest,ext);
+	if (strcmp(fname,tempname)!=0) {
+        strcpy (dest, "rom://");
+	    strcat (dest,fname);
+        strcat (dest,ext);
+    } else {
+        strcpy (dest,fname);
+    }
 
 	boardfile=_creat (dest,0);				// Was O_BINARY
 	if (boardfile<0) rexit(20);
-	if (write (boardfile,&bd,sizeof(bd))<0) rexit(5);
+	if (write (boardfile,&bd,sizeof(bd)) < 0) rexit(5);
 	write (boardfile,&numobjs,sizeof(numobjs));
-	write (boardfile,&objs,numobjs*sizeof(objs[0]));
+    for (int wobj = 0; wobj < numobjs; wobj++)
+    {
+        uint8_t bdata[31];
+        memcpy(&bdata[0], &objs[wobj].objkind, 1);
+        memcpy(&bdata[1], &objs[wobj].x, 2);
+        memcpy(&bdata[3], &objs[wobj].y, 2);
+        memcpy(&bdata[5], &objs[wobj].xd, 2);
+        memcpy(&bdata[7], &objs[wobj].yd, 2);
+        memcpy(&bdata[9], &objs[wobj].xl, 2);
+        memcpy(&bdata[11], &objs[wobj].yl, 2);
+        memcpy(&bdata[13], &objs[wobj].state, 2);
+        memcpy(&bdata[15], &objs[wobj].substate, 2);
+        memcpy(&bdata[17], &objs[wobj].statecount, 2);
+        memcpy(&bdata[19], &objs[wobj].counter, 2);
+        memcpy(&bdata[21], &objs[wobj].objflags, 2);
+        memcpy(&bdata[23], &objs[wobj].inside, 4);
+        memcpy(&bdata[27], &objs[wobj].info1, 2);
+        memcpy(&bdata[29], &objs[wobj].zaphold, 2);
+
+        write (boardfile, bdata, 31);
+    }
 	write (boardfile,&pl,sizeof(pl));
 	write (boardfile,&cnt_fruit,sizeof(cnt_fruit));
-	for (c=0; c<numobjs; c++) {
+	for (int c=0; c<numobjs; c++) {
 		if (objs[c].inside!=NULL) {
 			tempint=strlen (objs[c].inside);
 			write (boardfile,&tempint,sizeof(tempint));
@@ -1368,7 +1389,7 @@ void dodemo (void) {
 	};
 
 void xargon_main (int argc, char *argv[]) {
-	strcpy(tempname, "rom://"); strcat (tempname,"board_t"); strcat (tempname,ext);
+	strcpy(tempname, "tmp://"); strcat (tempname,"board_t"); strcat (tempname,ext);
 	if ((coreleft()+205968)<558080) rexit2(0);
 	loadcfg();
 	clrscr();
