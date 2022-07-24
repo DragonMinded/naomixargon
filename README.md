@@ -24,7 +24,6 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 
 ## Known Issues
 
-* No way to play episodes 2 or 3 of the game.
 * Title screen corruption on fade-in of main menu.
 * Somewhat laggy gameplay and control inputs, needs optimization.
 * No test menu, game options, or control remapping.
