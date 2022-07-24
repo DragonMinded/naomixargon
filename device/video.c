@@ -477,11 +477,6 @@ void undim(void)
     // TODO
 }
 
-void uncrunch (char far *sourceptr,char far *destptr,int length)
-{
-    // TODO
-}
-
 void setpagemode (int mode)
 {
     if (mode)

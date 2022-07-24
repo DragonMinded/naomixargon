@@ -10,10 +10,7 @@ all: xargon.bin
 # these files exist.
 SRCS  = $(wildcard source/*.c)
 SRCS += $(wildcard device/*.c)
-
-# Arbitrarily choose episode 1. We should make this configurable, or
-# at least spit out different executables per-episode.
-SRCS += volume/x_vol1.c
+SRCS += $(wildcard volume/*.c)
 
 # Force all warnings to be errors to catch more stuff.
 FLAGS += -Werror

@@ -11,28 +11,23 @@
 #include "include/gamectrl.h"
 #include "include/x_obj.h"
 #include "include/xargon.h"
-#include "include/cfg_win.h"
 
-int c_len=CFG_WIN_LENGTH;
-unsigned char CFG_WIN[];
+char xshafile2[]="rom://graphics.xr2";
+char xvocfile2[]="rom://audio.xr2";
+char cfgfname2[]="rom://config.xr2";
+char ext2[]=".xr2";
+char tilefile2[]="rom://tiles.xr2";
+char xintrosong2[]="rom://song_0.xr2";
 
-char pgmname[]="XARGON_2";
-char xshafile[]="rom://graphics.xr2";
-char xvocfile[]="rom://audio.xr2";
-char cfgfname[]="rom://config.xr2";
-char ext[]=".xr2";
-char tilefile[]="rom://tiles.xr2";
-char xintrosong[]="rom://song_0.xr2";
+char *demoboard2[1]={"intro"};
+char demolvl2[1]={100};
+char *demoname2[1]={"rom://demo_mac.xr0"};
 
-char *demoboard[1]={"intro"};
-char demolvl[1]={100};
-char *demoname[1]={"rom://demo_mac.xr0"};
+char v_msg2[]="VOLUME TWO --- The Secret Chamber";
 
-char v_msg[]="VOLUME TWO --- The Secret Chamber";
+char *fidgetmsg2[4]={"Apogee never made games this fun","I can't imagine anyone being bored playing this","Don't just stand there looking stupid","Come on Malvineous get moving"};
 
-char *fidgetmsg[4]={"Apogee never made games this fun","I can't imagine anyone being bored playing this","Don't just stand there looking stupid","Come on Malvineous get moving"};
-
-char *leveltxt[16]={
+char *leveltxt2[16]={
 	"Malvineous returns\r\rto the safety of\r\rthe map level\r",
 	"Malvineous continues\r\rhis quest to find\r\rXargon's Castle\r",
 	"Malvineous cautiously\r\renters the\r\rmassive volcano\r",
@@ -51,7 +46,7 @@ char *leveltxt[16]={
 	"Malvineous creeps\r\rinto the\r\rSecret Chamber\r"
 	};
 
-void wait (void) {
+void wait2 (void) {
 	int x, y;
 	int c,q;
 
@@ -63,8 +58,6 @@ void wait (void) {
 		};
 	fontcolor (&mainvp,71,-1);
 	wprint (&mainvp,168,8,1,"THE SECRET CHAMBER");
-//	fontcolor (&mainvp,7,-1);
-//	wprint (&mainvp,79,194,2,"-Press Any Key to Continue-");
 	pageflip (); setpagemode (0);	fadein ();
 	do {
 		gamecount++; checkctrl0(0);

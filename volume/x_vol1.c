@@ -11,27 +11,23 @@
 #include "include/gamectrl.h"
 #include "include/x_obj.h"
 #include "include/xargon.h"
-#include "include/cfg_win.h"
 
-int c_len=CFG_WIN_LENGTH;
-unsigned char CFG_WIN[];
+char xshafile1[]="rom://graphics.xr1";
+char xvocfile1[]="rom://audio.xr1";
+char cfgfname1[]="rom://config.xr1";
+char ext1[]=".xr1";
+char tilefile1[]="rom://tiles.xr1";
+char xintrosong1[]="rom://song_0.xr1";
 
-char xshafile[]="rom://graphics.xr1";
-char xvocfile[]="rom://audio.xr1";
-char cfgfname[]="rom://config.xr1";
-char ext[]=".xr1";
-char tilefile[]="rom://tiles.xr1";
-char xintrosong[]="rom://song_0.xr1";
+char *demoboard1[1]={"intro"};
+char demolvl1[1]={100};
+char *demoname1[1]={"rom://demo_mac.xr0"};
 
-char *demoboard[1]={"intro"};
-char demolvl[1]={100};
-char *demoname[1]={"rom://demo_mac.xr0"};
+char v_msg1[]="VOLUME ONE --- Beyond Reality";
 
-char v_msg[]="VOLUME ONE --- Beyond Reality";
+char *fidgetmsg1[4]={"Wow! These EPIC games are great","The graphics in this game are incredible","Have you tried KILOBLASTER yet?","I can't wait to get volumes 2 and 3!"};
 
-char *fidgetmsg[4]={"Wow! These EPIC games are great","The graphics in this game are incredible","Have you tried KILOBLASTER yet?","I can't wait to get volumes 2 and 3!"};
-
-char *leveltxt[16]={
+char *leveltxt1[16]={
 	"Malvineous returns\r\rto the safety of\r\rthe map level\r",
 	"Malvineous begins\r\rhis journey in\r\rthis bizarre world\r",
 	"Malvineous enters\r\ra strange\r\rnew dimension\r",
@@ -50,7 +46,7 @@ char *leveltxt[16]={
 	""
 	};
 
-void wait (void) {
+void wait1 (void) {
 	int x, y;
 	int c,q;
 
@@ -62,8 +58,6 @@ void wait (void) {
 		};
 	fontcolor (&mainvp,71,-1);
 	wprint (&mainvp,200,8,1,"BEYOND REALITY");
-//	fontcolor (&mainvp,7,-1);
-//	wprint (&mainvp,79,194,2,"-Press Any Key to Continue-");
 	pageflip (); setpagemode (0);	fadein ();
 	do {
 		gamecount++; checkctrl0(0);

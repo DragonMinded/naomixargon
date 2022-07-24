@@ -13,7 +13,6 @@
 #include "include/keyboard.h"
 #include "include/windows.h"
 #include "include/gamectrl.h"
-#include "include/uncrunch.h"
 #include "include/config.h"
 #include "include/music.h"
 #include "include/x_obj.h"
@@ -59,10 +58,8 @@ char hiname [hilen][numhighs];
 char savename [numsaves][savelen];
 unsigned long hiscore [numhighs];
 
-extern char xshafile[],xvocfile[],cfgfname[],ext[],xintrosong[];
-extern char v_msg[];
-extern int c_len;
-extern unsigned char CFG_WIN[];
+extern char *xshafile,*xvocfile,*cfgfname,*ext,*xintrosong;
+extern char *v_msg;
 
 extern char *demoboard[1];
 extern char demolvl[1];
@@ -1393,7 +1390,6 @@ void xargon_main (int argc, char *argv[]) {
 	if ((coreleft()+205968)<558080) rexit2(0);
 	loadcfg();
 	clrscr();
-	uncrunch (CFG_WIN,scrnaddr,c_len);
 	window (12,14,68,22); textcolor (15); textbackground (1);
 	gotoxy (1,1); clrscr();
 
@@ -1455,7 +1451,6 @@ void rexit (int num) {
 	snd_exit();
 
 	clrscr();
-	uncrunch (CFG_WIN,scrnaddr,c_len);
 	window (12,14,68,22); textcolor (15); textbackground (1);
 	gotoxy (1,1); clrscr();
 	cputs ("Sorry, error <");
@@ -1480,7 +1475,6 @@ void rexit2 (int n) {
 		};
 
 	clrscr();
-	uncrunch (CFG_WIN,scrnaddr,c_len);
 	window (12,14,68,22); textcolor (15); textbackground (1);
 	gotoxy (1,1); clrscr();
 	if (n) {

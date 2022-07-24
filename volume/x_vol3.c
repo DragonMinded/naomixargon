@@ -11,28 +11,23 @@
 #include "include/gamectrl.h"
 #include "include/x_obj.h"
 #include "include/xargon.h"
-#include "include/cfg_win.h"
 
-int c_len=CFG_WIN_LENGTH;
-unsigned char CFG_WIN[];
+char xshafile3[]="rom://graphics.xr3";
+char xvocfile3[]="rom://audio.xr3";
+char cfgfname3[]="rom://config.xr3";
+char ext3[]=".xr3";
+char tilefile3[]="rom://tiles.xr3";
+char xintrosong3[]="rom://song_0.xr3";
 
-char pgmname[]="XARGON_3";
-char xshafile[]="rom://graphics.xr3";
-char xvocfile[]="rom://audio.xr3";
-char cfgfname[]="rom://config.xr3";
-char ext[]=".xr3";
-char tilefile[]="rom://tiles.xr3";
-char xintrosong[]="rom://song_0.xr3";
+char *demoboard3[1]={"intro"};
+char demolvl3[1]={100};
+char *demoname3[1]={"rom://demo_mac.xr0"};
 
-char *demoboard[1]={"intro"};
-char demolvl[1]={100};
-char *demoname[1]={"rom://demo_mac.xr0"};
+char v_msg3[]="VOLUME THREE --- Xargon's Fury";
 
-char v_msg[]="VOLUME THREE --- Xargon's Fury";
+char *fidgetmsg3[4]={"What are you waiting for?","Xargon is watching you!","Don't give up Malvineous","You'll never defeat Xargon!"};
 
-char *fidgetmsg[4]={"What are you waiting for?","Xargon is watching you!","Don't give up Malvineous","You'll never defeat Xargon!"};
-
-char *leveltxt[16]={
+char *leveltxt3[16]={
 	"Malvineous returns\r\rto the safety of\r\rthe map level\r",
 	"Malvineous finds\r\ra door to an\r\runderground tunnel\r",
 	"Malvineous confronts\r\rmore of the\r\rgiant trolls\r",
@@ -51,7 +46,7 @@ char *leveltxt[16]={
 	"Malvineous enters\r\rthe evil\r\rXargbot factory\r"
 	};
 
-void wait (void) {
+void wait3 (void) {
 	int x, y;
 	int c,q;
 
@@ -63,8 +58,6 @@ void wait (void) {
 		};
 	fontcolor (&mainvp,71,-1);
 	wprint (&mainvp,208,8,1,"XARGON'S FURY");
-//	fontcolor (&mainvp,7,-1);
-//	wprint (&mainvp,79,194,2,"-Press Any Key to Continue-");
 	pageflip (); setpagemode (0);	fadein ();
 	do {
 		gamecount++; checkctrl0(0);

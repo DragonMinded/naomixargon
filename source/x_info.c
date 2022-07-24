@@ -13,7 +13,7 @@
 #include "include/x_obj.h"
 #include "include/xargon.h"
 
-extern char tilefile[];
+extern char *tilefile;
 
 void init_info (void) {
 	int16_t c,temp;
