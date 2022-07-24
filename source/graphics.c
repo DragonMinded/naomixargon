@@ -361,7 +361,6 @@ void gr_exit (void) {
 	intr (0x10,&preg);
 	};
 
-//#if 0
 void dim (void) {
 	p_rec currentpal;
 	int temp,i,cycle;
@@ -393,5 +392,4 @@ void undim (void) {
 		for (i=0;i<(256*3);i++) outportb(DacData,currentpal[i]);
 		};
 	};
-//#endif
 #endif

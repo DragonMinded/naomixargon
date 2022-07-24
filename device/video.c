@@ -308,7 +308,44 @@ void scrollvp (vptype *vp, int xd, int yd)
 
 void scroll (vptype *vp, int x0, int y0, int x1, int y1, int xd, int yd)
 {
-    // TODO
+    // This is my best guess as to what this function does. It seems to allow for scrolling
+    // a smaller bounding box within a vptype.
+    if (x0 >= vp->vpx + vp->vpxl)
+    {
+        return;
+    }
+    if (y0 >= vp->vpy + vp->vpyl)
+    {
+        return;
+    }
+    if (x1 <= vp->vpx || y1 <= vp->vpy)
+    {
+        return;
+    }
+
+    vptype new_vp;
+    memcpy(&new_vp, vp, sizeof(vptype));
+
+    if (x0 > vp->vpx && x0 <= vp->vpx + vp->vpxl)
+    {
+        new_vp.vpx = x0;
+        new_vp.vpxl -= (x0 - vp->vpx);
+    }
+    if (y0 > vp->vpy && y0 <= vp->vpy + vp->vpyl)
+    {
+        new_vp.vpy = y0;
+        new_vp.vpyl -= (y0 - vp->vpy);
+    }
+    if (x1 > new_vp.vpx && x1 <= new_vp.vpx + new_vp.vpxl)
+    {
+        new_vp.vpxl -= ((new_vp.vpx + new_vp.vpxl) - x1);
+    }
+    if (y1 > new_vp.vpy && y1 <= new_vp.vpy + new_vp.vpyl)
+    {
+        new_vp.vpyl -= ((new_vp.vpy + new_vp.vpyl) - y1);
+    }
+
+    scrollvp(&new_vp, xd, yd);
 }
 
 void clrvp (vptype *vp, byte col)
