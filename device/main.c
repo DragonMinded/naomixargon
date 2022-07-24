@@ -310,8 +310,12 @@ void pcx_load(const char * const filename, uint8_t *buffer, int palbank, int buf
                     pos++;
                     break;
                 }
-
-                // TODO: Other depths if I ever need them?
+                default:
+                {
+                    // We don't support other depths right now.
+                    fclose(fp);
+                    return;
+                }
             }
         }
     }
@@ -352,13 +356,97 @@ void pcx_load(const char * const filename, uint8_t *buffer, int palbank, int buf
 
     if (palette_header != 0x0C)
     {
-        // TODO: Maybe look at the header for the 16 palette entries?
+        // Technically the spec says to look at the header in position 16-48 for 16
+        // palette entries. However, the file we're reading doesn't need this so I
+        // ignored that part of the spec.
     }
 
     fclose(fp);
 }
 
 #define SELECT_SCREEN "rom://screen_1.xr0"
+
+void select_fadein(texture_description_t *outtex, int yoff, float xscale, float yscale)
+{
+    uint32_t *bank1 = ta_palette_bank(TA_PALETTE_CLUT8, 0);
+    uint32_t *bank3 = ta_palette_bank(TA_PALETTE_CLUT8, 2);
+
+    // Preserve the current bank since we used that to select the right episode.
+    for (int i = 0; i < 256; i++)
+    {
+        bank3[i] = bank1[i];
+    }
+
+    // Do the fade!
+    for (int cycle = 0; cycle < 64; cycle += 2)
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            color_t unfaded = ta_palette_reverse_entry(bank3[i]);
+
+            unfaded.r = (unfaded.r * cycle) >> 6;
+            unfaded.g = (unfaded.g * cycle) >> 6;
+            unfaded.b = (unfaded.b * cycle) >> 6;
+
+            bank1[i] = ta_palette_entry(unfaded);
+        }
+
+        ta_commit_begin();
+        sprite_draw_scaled(0, yoff, xscale, yscale, outtex);
+        ta_commit_end();
+
+        ta_render();
+
+        video_display_on_vblank();
+    }
+
+    // Should be equal, but lets restore it anyway.
+    for (int i = 0; i < 256; i++)
+    {
+        bank1[i] = bank3[i];
+    }
+}
+
+void select_fadeout(texture_description_t *outtex, int yoff, float xscale, float yscale)
+{
+    uint32_t *bank1 = ta_palette_bank(TA_PALETTE_CLUT8, 0);
+    uint32_t *bank3 = ta_palette_bank(TA_PALETTE_CLUT8, 2);
+
+    // Preserve the current bank since we used that to select the right episode.
+    for (int i = 0; i < 256; i++)
+    {
+        bank3[i] = bank1[i];
+    }
+
+    // Do the fade!
+    for (int cycle = 62; cycle >= 0; cycle -= 2)
+    {
+        for (int i = 0; i < 256; i++)
+        {
+            color_t unfaded = ta_palette_reverse_entry(bank3[i]);
+
+            unfaded.r = (unfaded.r * cycle) >> 6;
+            unfaded.g = (unfaded.g * cycle) >> 6;
+            unfaded.b = (unfaded.b * cycle) >> 6;
+
+            bank1[i] = ta_palette_entry(unfaded);
+        }
+
+        ta_commit_begin();
+        sprite_draw_scaled(0, yoff, xscale, yscale, outtex);
+        ta_commit_end();
+
+        ta_render();
+
+        video_display_on_vblank();
+    }
+
+    // Nuke the colors, since we faded out entirely.
+    for (int i = 0; i < 256; i++)
+    {
+        bank1[i] = ta_palette_entry(rgb(0, 0, 0));
+    }
+}
 
 void select_episode()
 {
@@ -413,7 +501,8 @@ void select_episode()
     // Load the data, since its palette-cycled only we have to do this just once.
     ta_texture_load(outtex->vram_location, outtex->width, 8, outbuf);
 
-    // TODO: Fade in the screen, like the original did.
+    // Fade in the screen, like the original did.
+    select_fadein(outtex, yoff, xscale, yscale);
 
     // Draw it! Xargon conveniently separated the palette for the display image
     // so that the different episodes were all in one chunk of palette. It means
@@ -474,7 +563,8 @@ void select_episode()
         video_display_on_vblank();
     }
 
-    // TODO: Fade out the screen, like the original did.
+    // Fade out the screen, like the original did.
+    select_fadeout(outtex, yoff, xscale, yscale);
 
     free(outbuf);
     ta_texture_desc_free(outtex);

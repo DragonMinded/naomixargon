@@ -441,7 +441,7 @@ void fadeout(void)
 {
     p_rec currentpal;
 
-    for (int cycle = 63; cycle >= 0; cycle -= 2)
+    for (int cycle = 62; cycle >= 0; cycle -= 2)
     {
         for (int i = 0; i < (256 * 3); i++)
         {
