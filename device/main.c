@@ -488,15 +488,32 @@ void select_episode()
         bank2[i] = bank1[i];
     }
 
+    // Handle definitions for where episode palettes are.
+    int cursor_loc[4] = { 33, 65, 97, 129 };
+    int tstart[4] = { 32, 64, 96, 128 };
+    int tend[4] = { 64, 96, 128, 160 };
+
     // Gray out all of the episode selection bits.
     int cursor = 0;
     color_t gray = rgb(160, 160, 160);
-    int cursor_loc[4] = { 33, 65, 97, 129 };
     for (int i = 0; i < 4; i++)
     {
         bank1[cursor_loc[i]] = ta_palette_entry(gray);
     }
     bank1[cursor_loc[cursor]] = bank2[cursor_loc[cursor]];
+
+    // Now, adjust the palette for each of the episodes.
+    for (int p = tstart[0]; p < tend[3]; p++)
+    {
+        // Don't do anything to cursors.
+        if (p == cursor_loc[cursor]) { continue; }
+
+        color_t unfaded = ta_palette_reverse_entry(bank2[p]);
+        unfaded.r = (unfaded.r * 17) >> 5;
+        unfaded.g = (unfaded.g * 17) >> 5;
+        unfaded.b = (unfaded.b * 17) >> 5;
+        bank1[p] = ta_palette_entry(unfaded);
+    }
 
     // Load the data, since its palette-cycled only we have to do this just once.
     ta_texture_load(outtex->vram_location, outtex->width, 8, outbuf);
@@ -514,8 +531,47 @@ void select_episode()
     // Episode 2: 64-95, border is 65
     // Episode 3: 96-127, border is 97
     // Order info: 128-159, border is 129
+    uint32_t count = 0;
     while( 1 )
     {
+        // Calculate current "throb" value. We want it to go through a full cycle
+        // every half second, so grab a half second of frames, and then center it
+        // on zero where half the frames are negative and half are positive. Then
+        // just take the absolute value of that which gives us a ping-ponging value
+        // within 0-15 inclusive. It doesn't really matter where we start, but since
+        // we begin with all episodes faded out it makes sense to fade in instead of
+        // out for our first chunk, so finally we subtract ourselves from 15.
+        int throb = count % 30;
+        throb = throb - 15;
+        throb = throb < 0 ? -throb : throb;
+        throb = 15 - throb;
+
+        // Now, adjust the palette.
+        for (int p = tstart[0]; p < tend[3]; p++)
+        {
+            // Don't do anything to cursors.
+            if (p == cursor_loc[cursor]) { continue; }
+
+            color_t unfaded = ta_palette_reverse_entry(bank2[p]);
+
+            if (p >= tstart[cursor] && p < tend[cursor])
+            {
+                // Fade current selection with a throb.
+                unfaded.r = (unfaded.r * (throb + 17)) >> 5;
+                unfaded.g = (unfaded.g * (throb + 17)) >> 5;
+                unfaded.b = (unfaded.b * (throb + 17)) >> 5;
+            }
+            else
+            {
+                // Fade non-current selection completely so its not highlighted.
+                unfaded.r = (unfaded.r * 17) >> 5;
+                unfaded.g = (unfaded.g * 17) >> 5;
+                unfaded.b = (unfaded.b * 17) >> 5;
+            }
+
+            bank1[p] = ta_palette_entry(unfaded);
+        }
+
         maple_poll_buttons();
         jvs_buttons_t pressed = maple_buttons_pressed();
 
@@ -552,8 +608,6 @@ void select_episode()
             }
         }
 
-        // TODO: Throb the current selection, like the original did.
-
         ta_commit_begin();
         sprite_draw_scaled(0, yoff, xscale, yscale, outtex);
         ta_commit_end();
@@ -561,6 +615,7 @@ void select_episode()
         ta_render();
 
         video_display_on_vblank();
+        count++;
     }
 
     // Fade out the screen, like the original did.
