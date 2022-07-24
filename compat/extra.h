@@ -12,7 +12,6 @@ int max(int a, int b);
 int randomrange(int max);
 int getclock();
 
-int coreleft();
 void setmem(void *dst, unsigned long len, char val);
 
 // Stuff in input libraries that somehow is not foward defined.

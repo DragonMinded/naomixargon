@@ -12,7 +12,7 @@
 #include "include/keyboard.h"
 
 extern int gamecount;
-extern int debug,swrite;
+extern int swrite;
 
 extern long longclock;
 

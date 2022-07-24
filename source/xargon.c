@@ -43,7 +43,6 @@ char cnt_fruit, old_fruit, icon_fruit;
 pltype pl,o_pl;
 
 int designflag=0;
-int debug=0;
 int granny=0;
 int levelmsgclock;
 int botcol,bottime,text_flg;
@@ -203,13 +202,6 @@ void drawstats(void) {
 	wprint (&statvp,229,14,1,"  ");
 	itoa (pl.emeralds,tempstr,10);
 	wprint (&statvp,245-(strlen(tempstr)*8),14,1,tempstr);
-
-	if (debug) {
-		fontcolor (&statvp,3,121);
-		wprint (&statvp,12,14,2,"       ");
-		ultoa (coreleft(),tempstr,10);
-		wprint (&statvp,54-(1+strlen(tempstr)*6),14,2,tempstr);
-		};
 
 	for (c=0; c<4; c++) {
 		drawshape (&statvp,0x1e1b,122+(c*12),13);
@@ -1241,9 +1233,6 @@ void play (int demoflg) {
 				if (!invcount(inv_invin)) addinv (inv_invin);
 				statmodflg|=mod_screen;
 				}
-			else if ((cheatchar=='Z')&&(cheatcount==3)) {
-				cheatchar=0; debug=!debug;	statmodflg|=mod_screen;
-				};
 			switch (key) {												// COMMANDS
 				case k_f1: dotextmsg(1,0); break;				// HELP
 				case 'S':												// SAVE
@@ -1387,7 +1376,6 @@ void dodemo (void) {
 
 void xargon_main (int argc, char *argv[]) {
 	strcpy(tempname, "tmp://"); strcat (tempname,"board_t"); strcat (tempname,ext);
-	if ((coreleft()+205968)<558080) rexit2(0);
 	loadcfg();
 	clrscr();
 	window (12,14,68,22); textcolor (15); textbackground (1);
@@ -1399,8 +1387,6 @@ void xargon_main (int argc, char *argv[]) {
 
 	if (!doconfig()) goto abortstart;
 	gr_init();
-		// not enough memory (583,680 needed)
-	if ((vocflag||musicflag)&&((coreleft()+205968)<583680)) rexit2(1);
 
 	clrpal();
 	savecfg();

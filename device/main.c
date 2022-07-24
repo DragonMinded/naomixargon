@@ -549,12 +549,6 @@ int getclock()
     return 0;
 }
 
-int coreleft()
-{
-    // TODO: Calculate how much memory is left
-    return 8 * 1024 * 1024;
-}
-
 int randomrange(int max)
 {
     return (int)(((double)rand() / (double)RAND_MAX) * (double)max);

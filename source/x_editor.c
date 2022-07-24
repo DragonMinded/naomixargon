@@ -171,7 +171,6 @@ void design (void) {
 	char tempstr[32];
 	char tempfname[32];
 	char tempstr2[12];
-	char tempstr3[32];
 	int new_col=0;
 	int bc_x=0,bc_y=0,bc_w=0,bc_h=0;		// Block copy x,y and width,height
 	int tx,ty;
@@ -196,9 +195,6 @@ void design (void) {
 			}
 		fontcolor (&statvp,3,0);						// memory usage
 		wprint (&statvp,248,1,2,"       ");
-		ultoa (coreleft(),tempstr3,10);
-		wprint (&statvp,290-(1+strlen(tempstr3)*6),1,2,tempstr3);
-		tempstr3[0]='\0';
 
 		fontcolor (&statvp,1,0);
 		wprint (&statvp,248,21,2, "# objs: ");
