@@ -69,6 +69,12 @@ xargon.bin: ${MAKEROM_FILE} ${NAOMI_BIN_FILE} build/romfs.bin
 		--align-before-data 4 \
 		--filedata build/romfs.bin
 
+# Handy dandy target for makin' a release.
+.PHONY: release
+release: xargon.bin
+	mkdir -p releases
+	cp xargon.bin releases/
+
 # Include a simple clean target which wipes the build directory
 # and kills any binary built.
 .PHONY: clean

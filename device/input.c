@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <naomi/system.h>
 #include <naomi/maple.h>
 #include <naomi/thread.h>
 #include "include/keyboard.h"
@@ -53,6 +54,11 @@ int k_pressed (void)
             jvs_buttons_t pressed = maple_buttons_pressed();
             jvs_buttons_t released = maple_buttons_released();
 
+            if (pressed.psw1 || pressed.test)
+            {
+                // Enter into system test mode.
+                enter_test_mode();
+            }
             if (pressed.player1.start)
             {
                 // Enter

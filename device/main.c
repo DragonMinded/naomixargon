@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <naomi/system.h>
 #include <naomi/video.h>
 #include <naomi/ta.h>
 #include <naomi/console.h>
@@ -578,6 +579,11 @@ void select_episode()
         maple_poll_buttons();
         jvs_buttons_t pressed = maple_buttons_pressed();
 
+        if (pressed.psw1 || pressed.test)
+        {
+            // Enter into system test mode.
+            enter_test_mode();
+        }
         if (pressed.player1.up)
         {
             if (cursor > 0)
@@ -679,6 +685,34 @@ void main()
 
         // Reset the loop so that the player can choose another episode.
         video_thread_end();
+    }
+}
+
+void test()
+{
+    // Set up video so we get at least something on the screen even on failure.
+    video_init(VIDEO_COLOR_1555);
+    video_set_background_color(rgb(0, 0, 0));
+#ifdef NAOMI_CONSOLE
+    console_init(16);
+#endif
+
+    // Init ROMFS so we can find files.
+    romfs_init_default();
+
+    while ( 1 )
+    {
+        maple_poll_buttons();
+        jvs_buttons_t pressed = maple_buttons_pressed();
+
+        if (pressed.psw1 || pressed.test)
+        {
+            // Exit out of here.
+            enter_test_mode();
+        }
+
+        video_draw_debug_text(320 - ((21 * 8) / 2) , 200 - ((5 * 8) / 2), rgb(255, 255, 255), "  Xargon for Naomi   \n Version 1.0 alpha 1 \nPorted by DragonMinded\n\n    [test] to exit   ");
+        video_display_on_vblank();
     }
 }
 

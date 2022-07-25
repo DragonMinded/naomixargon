@@ -12,7 +12,7 @@ to make this happen, but I certainly won't be that person!
 
 ## Releases
 
-Currently there is no binary release for Xargon. Stay tuned for the future when this will change!
+The full version of the game is available in the releases directory! Load it in your favorite editor or net boot it.
 
 ## Default Controls
 
@@ -24,10 +24,13 @@ Currently there is no binary release for Xargon. Stay tuned for the future when 
 
 ## Known Issues
 
-* Title screen corruption on fade-in of main menu.
-* Somewhat laggy gameplay and control inputs, needs optimization.
+* Episode select has no select or cursor movement sound.
+* Title screen corruption on fade-in of main menu, fade-in and fade-out don't seem to work.
+* Screen dimming/undimming is not currently implemented.
+* Somewhat laggy gameplay and control inputs, needs optimization or engine fixes.
 * No test menu, game options, or control remapping.
 * No game saving or loading.
+* Cannot enter name into high scores, high scores do not save.
 
 ## Acknowledgements
 
