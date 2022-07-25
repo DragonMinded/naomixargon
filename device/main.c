@@ -16,7 +16,10 @@
 #include <naomi/tmpfs/tmpfs.h>
 
 // Defined in xargon.c
-void xargon_main (int argc, char *argv[]);
+void xargon_main(int argc, char *argv[]);
+
+// Defined in input.c
+void input_reset();
 
 // Defined in video.c
 void video_thread_start();
@@ -659,26 +662,24 @@ void main()
     // Init TMPFS so the game has a place to store temp files.
     tmpfs_init_default(0, 256 * 1024);
 
-    // Select episode.
-    select_episode();
+    while ( 1 )
+    {
+        // Select episode.
+        select_episode();
 
-    // Set up the video thread so that even if we don't get to the main game loop we still
-    // see console messages.
-    video_thread_start();
+        // Reset input polling for multiple entries.
+        input_reset();
 
-    // Now, run the main executable.
-    xargon_main((sizeof(argv) / sizeof(argv[0])) - 1, argv);
+        // Set up the video thread so that even if we don't get to the main game loop we still
+        // see console messages.
+        video_thread_start();
 
-    // Display an error on getting here.
-    video_thread_end();
-    console_set_visible(0);
-    video_set_background_color(rgb(48, 0, 0));
+        // Now, run the main executable.
+        xargon_main((sizeof(argv) / sizeof(argv[0])) - 1, argv);
 
-    // Should never happen!
-    video_draw_debug_text(16, 16, rgb(255, 255, 255), "Program unexpectedly exit!\n");
-    video_display_on_vblank();
-
-    while ( 1 ) { ; }
+        // Reset the loop so that the player can choose another episode.
+        video_thread_end();
+    }
 }
 
 int getclock()

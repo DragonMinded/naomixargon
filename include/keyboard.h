@@ -6,6 +6,7 @@ extern unsigned char keydown[2][256];
 void k_status (void);
 int k_pressed (void);
 int k_read (void);
+void k_reset (void);
 
 void installhandler (unsigned char status);
 void removehandler(void);

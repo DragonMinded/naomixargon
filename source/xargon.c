@@ -736,9 +736,11 @@ int askquit (void) {
 	defwin (&quitwin,10,64,9,1,0,0,textbox);
 	drawwin (&quitwin);
 	drawshape (&quitwin.inside,0x210b,10,3);
-	do {checkctrl0(0);}
-		while ((key==0)&&(fire1==0)&&(fire2==0)&&(dx1==0)&&(dy1==0));
-	key=toupper(key); return (key);
+    while ( 1 ) {
+        do {checkctrl0(0);}
+            while ((key==0)&&(fire1==0)&&(fire2==0)&&(dx1==0)&&(dy1==0));
+        if (key == enter || key == esc) return key;
+        };
 	};
 
 void drawcell (int x, int y) {
@@ -950,7 +952,7 @@ void mainmenu (void) {
 			pageflip (); setpagemode (0);
 			askquit ();
 			setpagemode (1); moddrawboard ();
-			if (key=='Y') done=1;
+			if (key==enter) done=1;
 			};
 		} while (!done); remove (tempname);
 	};
@@ -1376,6 +1378,7 @@ void dodemo (void) {
 
 void xargon_main (int argc, char *argv[]) {
 	strcpy(tempname, "tmp://"); strcat (tempname,"board_t"); strcat (tempname,ext);
+    k_reset();
 	loadcfg();
 	clrscr();
 	window (12,14,68,22); textcolor (15); textbackground (1);
@@ -1414,6 +1417,7 @@ void xargon_main (int argc, char *argv[]) {
 	init_brd();
 	init_objs();
 	init_colors();
+    k_reset();
 
 	pageflip(); setpagemode(0); fadein(); mainmenu();
 

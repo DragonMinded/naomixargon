@@ -166,6 +166,26 @@ int k_read (void)
     return control;
 }
 
+void k_reset (void)
+{
+    // Used to clear keyboard state between some screens.
+    while (k_read() != 0) { ; }
+
+    memset(keydown, 0, sizeof(keydown));
+    k_rshift = 0;
+    k_lshift = 0;
+    k_shift = 0;
+    k_ctrl = 0;
+    k_alt = 0;
+    k_numlock = 0;
+}
+
+void input_reset (void)
+{
+    controls_needed = 1;
+    controls_available = 0;
+}
+
 void installhandler (unsigned char status)
 {
     // Blank
