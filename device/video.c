@@ -56,8 +56,10 @@ void *video(void *param)
     uint32_t elapsed = 0;
     int video_updates = 0;
     int xargon_last_reset = 0;
+#ifdef NAOMI_THREAD_DEBUG
     task_scheduler_info_t sched;
     char task_info[2048] = "";
+#endif
 #endif
 
     while ( 1 )
@@ -116,8 +118,10 @@ void *video(void *param)
             video_draw_debug_text(debugxoff, debugyoff + 0, rgb(0xFF, 0x6D, 0x0A), "Video FPS: %.01f, %dx%d", video_thread_fps, video_width(), video_height());
             video_draw_debug_text(debugxoff, debugyoff + 10, rgb(0xFF, 0x6D, 0x0A), "Xargon FPS: %.01f, %dx%d", xargon_fps, SCREEN_WIDTH, SCREEN_HEIGHT);
             video_draw_debug_text(debugxoff, debugyoff + 20, rgb(0xFF, 0x6D, 0x0A), "Page Mode: %s", pagemode ? "double buffered" : "single buffered");
+#ifdef NAOMI_THREAD_DEBUG
             video_draw_debug_text(debugxoff, debugyoff + 30, rgb(0xFF, 0x6D, 0x0A), "IRQs: %lu", sched.interruptions);
             video_draw_debug_text(debugxoff, debugyoff + 40, rgb(0xFF, 0x6D, 0x0A), task_info);
+#endif
             video_updates ++;
         }
 #endif
@@ -165,6 +169,7 @@ void *video(void *param)
             elapsed = 0;
         }
 
+#ifdef NAOMI_THREAD_DEBUG
         // Get task schduler info.
         task_scheduler_info(&sched);
 
@@ -180,6 +185,7 @@ void *video(void *param)
                 strcat(task_info, tmpBuf);
             }
         }
+#endif
 #endif
     }
 }
