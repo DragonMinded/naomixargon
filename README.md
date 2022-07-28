@@ -21,6 +21,7 @@ The full version of the game is available in the releases directory! Load it in 
 * 2P start is used to back out of menus.
 * 1P button 1 is fire/throw rocks/etc.
 * 1P button 2 is jump.
+* 1P button 3 pulls up the shop.
 
 ## Known Issues
 

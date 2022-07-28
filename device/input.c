@@ -143,6 +143,11 @@ int k_pressed (void)
                 // Fire2
                 k_ctrl = 0;
             }
+            if (pressed.player1.button3)
+            {
+                // Buy
+                control_queue('B');
+            }
         }
         mutex_unlock(&control_mutex);
     }
