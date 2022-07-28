@@ -11,6 +11,7 @@ int max(int a, int b);
 
 int randomrange(int max);
 int getclock();
+void waitclock(int ticks);
 
 void setmem(void *dst, unsigned long len, char val);
 

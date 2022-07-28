@@ -544,8 +544,7 @@ void printline (vptype *ourvp, int y, int n, int flg) {
 	};
 
 void ourdelay (void) {
-	int c=getclock();
-	do {} while ((getclock()-c)<0);
+    waitclock(1);
 	};
 
 void rest (void) {
@@ -1290,7 +1289,8 @@ void play (int demoflg) {
 		if (o_col==1) {init_colors(); o_col=0;};
 
 		if ((demoflg)&&(!macplay)) gameover=1;
-		while (((getclock())-begclock)<(granny+1)) continue;
+        int left = getclock() - begclock;
+        if (left < (granny + 1)) { waitclock((granny + 1) - left); }
 	} while (!gameover);
 	key=0; stopmac(); macaborted=1;
 	if (gameover==2) pageview (200);					// Won!

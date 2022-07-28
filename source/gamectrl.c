@@ -184,9 +184,7 @@ void checkctrl (int pollflag) {
 	};
 
 void checkctrl0 (int pollflag) {
-	static int oldclock=0;
-	do {} while (oldclock==getclock());
-	oldclock=getclock();
+    waitclock(1);
 	checkctrl (pollflag);
 	};
 

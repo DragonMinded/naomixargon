@@ -160,13 +160,10 @@ void wprint (vptype *vp, int x, int y, int font, char *text) {
 
 int wgetkey (vptype *vp, int x, int y, int font) {
 	char tempstr[2];
-	int oldclock;
 	tempstr [1]=0;
 
 	while (!k_pressed()) {
-        // TODO: Better wait mechanism here?
-		oldclock=getclock();
-		do {} while (oldclock==getclock());
+        waitclock(1);
 		cursorchar=(cursorchar&7)+1;
 		tempstr[0]=cursorchar;
 		wprint (vp,x,y,font,tempstr);

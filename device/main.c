@@ -716,6 +716,8 @@ void test()
     }
 }
 
+#define XARGON_US_TO_TICKS 54924
+
 int getclock()
 {
     struct timeval time;
@@ -723,10 +725,15 @@ int getclock()
     {
         uint64_t us = (((uint64_t)time.tv_sec) * 1000000) + time.tv_usec;
 
-        return us / 54924;
+        return us / XARGON_US_TO_TICKS;
     }
 
     return 0;
+}
+
+void waitclock(int ticks)
+{
+    thread_sleep(ticks * XARGON_US_TO_TICKS);
 }
 
 int randomrange(int max)
